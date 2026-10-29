@@ -1,0 +1,25 @@
+<a class="back-link" routerLink="/requests" queryParamsHandling="preserve">← К заявкам</a>
+@if (loading()) { <p class="state" role="status">Загружаем карточку…</p> }
+@if (loadError()) { <div class="state error" role="alert"><h1>Карточка недоступна</h1><p>{{ loadError() }}</p></div> }
+@if (item(); as request) {
+  <div class="page-heading"><div><p class="eyebrow">{{ request.id }} · {{ request.customer }}</p><h1>{{ request.title }}</h1></div><span class="badge">{{ statusLabels[request.status] }}</span></div>
+  <div class="detail-layout">
+    <section class="panel editor" aria-labelledby="edit-heading">
+      <h2 id="edit-heading">Сведения о заявке</h2>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <fieldset [disabled]="saving()">
+          <legend class="sr-only">Редактирование темы и описания</legend>
+          <div class="field"><label for="title">Тема</label><input id="title" formControlName="title" aria-describedby="title-help title-error" [attr.aria-invalid]="form.controls.title.touched && form.controls.title.invalid"><small id="title-help">От 5 до 100 символов.</small><span id="title-error" class="field-error">@if (form.controls.title.touched && form.controls.title.invalid) { Введите тему длиной от 5 до 100 символов. }</span></div>
+          <div class="field"><label for="description">Описание</label><textarea id="description" rows="6" formControlName="description" aria-describedby="description-help description-error" [attr.aria-invalid]="form.controls.description.touched && form.controls.description.invalid"></textarea><small id="description-help">До 1000 символов. Не указывайте пароли.</small><span id="description-error" class="field-error">@if (form.controls.description.touched && form.controls.description.invalid) { Описание слишком длинное. }</span></div>
+          <button type="submit" [disabled]="saving()">{{ saving() ? 'Сохраняем…' : 'Сохранить изменения' }}</button>
+        </fieldset>
+        @if (saveError()) { <p class="error inline-message" role="alert">{{ saveError() }}</p> }
+        @if (saved()) { <p class="success inline-message" role="status">Изменения сохранены.</p> }
+      </form>
+    </section>
+    <aside class="panel facts" aria-label="Дополнительные сведения">
+      <h2>Обработка</h2><dl><dt>Исполнитель</dt><dd>{{ request.assignee || 'Не назначен' }}</dd><dt>Приоритет</dt><dd>{{ priorityLabels[request.priority] }}</dd><dt>Обновлена</dt><dd>{{ request.updatedAt | date:'dd.MM.yyyy HH:mm' }}</dd></dl>
+      <p class="muted">Данные этой среды сохраняются до перезагрузки страницы.</p>
+    </aside>
+  </div>
+}

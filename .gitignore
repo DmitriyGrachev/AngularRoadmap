@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.angular/
+.cache/
+practice/reports/
+practice/issue-api/target/
+test-results/
+playwright-report/
+*.log
+.author-verify-*/
+.checked-types-*/
+.DS_Store

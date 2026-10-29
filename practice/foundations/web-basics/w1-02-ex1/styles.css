@@ -1,0 +1,3 @@
+body { font: 18px/1.5 system-ui; margin: 0; }
+.card { width: 100%; padding: 32px; border: 2px solid #333; margin-left: 80px; }
+/* TODO: исправьте переполнение, задайте понятную ширину, отступы, flex-панель и заметный фокус. */

@@ -1,0 +1,12 @@
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"><title>Событие — пример</title></head><body><h1>Заявка</h1><p id="status" aria-live="polite">OPEN</p><button id="start" type="button">В работу</button><script type="module">
+let status = 'OPEN';
+const output = document.querySelector('#status');
+const button = document.querySelector('#start');
+function startWork() {
+  status = 'IN_PROGRESS';
+  output.textContent = status;
+  button.disabled = true;
+  console.log(status);
+}
+button.addEventListener('click', startWork);
+</script></body></html>

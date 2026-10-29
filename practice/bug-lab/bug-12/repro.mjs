@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { Subject } from 'rxjs';
+const submits = new Subject(), pending = new Subject(), sent = [];
+const subscription = solution.saveRequests(submits, dto => { sent.push(dto); return pending; }).subscribe();
+submits.next({ title: 'Заявка' }); submits.next({ title: 'Заявка' }); subscription.unsubscribe();
+console.log({ sent, expectedRequests: 1 });
+assert.equal(sent.length, 1, 'Повторный клик при ожидании не должен отправить второй POST.');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

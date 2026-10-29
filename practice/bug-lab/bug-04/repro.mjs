@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+const board = solution.createBoard([{ id: 'A', status: 'OPEN' }]);
+console.log({ before: board.openCount() });
+board.add({ id: 'B', status: 'OPEN' });
+console.log({ rows: board.issues().length, count: board.openCount() });
+assert.equal(board.openCount(), 2, 'Вычисленное значение должно обновиться после add.');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

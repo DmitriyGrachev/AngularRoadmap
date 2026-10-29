@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { Subject, of, throwError } from 'rxjs';
+const queries = new Subject(), calls = [], states = [];
+const subscription = solution.search(queries, query => { calls.push(query); return query === 'сбой' ? throwError(() => new Error('Нет сети')) : of([{ id: 'OK' }]); }).subscribe(value => states.push(value));
+queries.next('сбой'); queries.next('сеть'); subscription.unsubscribe();
+console.log({ calls, states });
+assert.deepEqual(calls, ['сбой', 'сеть'], 'Следующий ввод должен запустить новый запрос.');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

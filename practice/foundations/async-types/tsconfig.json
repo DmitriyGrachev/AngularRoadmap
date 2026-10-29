@@ -1,0 +1,1 @@
+{"compilerOptions":{"target":"ES2022","module":"NodeNext","moduleResolution":"NodeNext","strict":true,"noEmit":true,"allowImportingTsExtensions":true,"types":[],"lib":["ES2022","DOM"]},"include":["examples/**/*.ts","w2-03-ex1/**/*.ts","w2-04-ex1/**/*.ts","w2-workshop-ex1/**/*.ts"]}

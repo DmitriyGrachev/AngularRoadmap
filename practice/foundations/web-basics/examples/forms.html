@@ -1,0 +1,9 @@
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"><title>Фильтр — пример</title></head><body><h1>Заявки</h1><form id="filters"><label for="status">Статус</label><select id="status" name="status"><option value="ALL">Все</option><option value="OPEN">Открытые</option><option value="DONE">Готовые</option></select><button type="submit">Применить</button></form><p id="result" aria-live="polite"></p><script type="module">
+const issues=[{title:'Письмо',status:'OPEN'},{title:'Кнопка',status:'DONE'}];
+const form=document.querySelector('#filters');
+const status=document.querySelector('#status');
+const result=document.querySelector('#result');
+function render(){const selected=status.value;const visible=issues.filter(issue=>selected==='ALL'||issue.status===selected);result.textContent=visible.length?visible.map(issue=>issue.title).join(', '):'Заявок нет';}
+form.addEventListener('submit',event=>{event.preventDefault();render();});
+render();
+</script></body></html>

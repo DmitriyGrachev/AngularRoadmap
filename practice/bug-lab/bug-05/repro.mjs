@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { Subject, VirtualTimeScheduler } from 'rxjs';
+const scheduler = new VirtualTimeScheduler(undefined, 70), start = new Subject(), destroy = new Subject(), ticks = [];
+const subscription = solution.ticks(start, destroy, scheduler).subscribe(value => ticks.push(value));
+scheduler.schedule(() => start.next(), 0); scheduler.schedule(() => destroy.next(), 35); scheduler.flush(); subscription.unsubscribe();
+console.log({ ticks, expected: [0, 1, 2] });
+assert.deepEqual(ticks, [0, 1, 2], 'После уничтожения внутренний таймер должен остановиться.');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

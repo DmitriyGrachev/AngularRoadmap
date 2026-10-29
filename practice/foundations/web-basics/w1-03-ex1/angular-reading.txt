@@ -1,0 +1,10 @@
+// Этот фрагмент читают, а не запускают как JavaScript.
+// Component связывает класс с HTML; полный проект появится на неделе 3.
+@Component({
+  selector: 'app-status',
+  template: '<p>{{ status }}</p><button (click)="complete()">Завершить</button>'
+})
+export class StatusComponent {
+  status = 'OPEN';
+  complete() { this.status = 'DONE'; }
+}

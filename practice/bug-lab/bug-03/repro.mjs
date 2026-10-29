@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { defer, of } from 'rxjs';
+let requests = 0;
+const model = solution.createDashboard({ get: () => defer(() => { requests++; return of({ items: [{ id: 'I-1' }] }); }) });
+model.items$.subscribe(items => console.log({ items }));
+model.count$.subscribe(count => console.log({ count }));
+console.log({ requests, expectedRequests: 1 });
+assert.equal(requests, 1, 'Два потребителя должны использовать один HTTP-результат.');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

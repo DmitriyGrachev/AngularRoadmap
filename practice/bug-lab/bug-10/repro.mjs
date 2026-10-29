@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { Subject } from 'rxjs';
+const triggers = new Subject(), response = new Subject();
+const model = solution.createLoader(triggers, () => response);
+const subscription = model.state$.subscribe(value => console.log(value));
+triggers.next('load'); response.next(['готово']); response.complete();
+const loadingAfterResponse = model.loading(); subscription.unsubscribe();
+console.log({ loadingAfterResponse, expected: false });
+assert.equal(loadingAfterResponse, false);
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

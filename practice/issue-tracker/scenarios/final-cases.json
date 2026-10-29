@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Новые входные данные для самостоятельной проверки итоговой задачи. Это данные и ожидаемое поведение, а не реализация фильтров.",
+  "preconditions": {
+    "freshApiTotal": 32,
+    "createExactlyOnce": true,
+    "initialSearchTotal": 0,
+    "searchPrefix": "Контроль-",
+    "keepCreatedStatusUnchanged": true,
+    "existingDataGuidance": "Если API уже использовалось, запишите исходный total как B и ожидайте B + 2 после создания. До создания поиск по префиксу Контроль- должен возвращать total 0; иначе используйте чистую учебную сессию, чтобы не смешивать одноимённые записи."
+  },
+  "postFixtures": [
+    {
+      "title": "Контроль-А: восстановить поиск",
+      "description": "Поиск должен находить новые заявки после изменения фильтра и возвращения на первую страницу.",
+      "priority": "HIGH"
+    },
+    {
+      "title": "Контроль-Б: уточнить подпись",
+      "description": "Подпись действия должна оставаться понятной после очистки поиска, статуса и приоритета.",
+      "priority": "LOW"
+    }
+  ],
+  "expectedQueries": [
+    {
+      "method": "GET",
+      "path": "/api/issues",
+      "query": { "q": "Контроль-", "page": 0, "size": 10 },
+      "expectedTotal": 2
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues",
+      "query": { "q": "Контроль-", "priority": "HIGH", "page": 0, "size": 10 },
+      "expectedTotal": 1
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues",
+      "query": { "q": "Контроль-", "status": "DONE", "page": 0, "size": 10 },
+      "expectedTotal": 0
+    }
+  ],
+  "afterReset": {
+    "query": { "page": 0, "size": 10 },
+    "removedParameters": ["q", "status", "priority"],
+    "expectedTotalOnFreshApi": 34,
+    "guidance": "Сброс меняет условия запроса и не удаляет заявки. Проверяйте total, а не длину items одной страницы; при другой исходной базе ожидается B + 2."
+  },
+  "unknownPriorityNormalization": {
+    "validApiCase": false,
+    "inputUiUrl": "/issues?q=Контроль-&priority=URGENT&page=3&size=10",
+    "expectedNormalizedQuery": { "q": "Контроль-", "page": 0, "size": 10 },
+    "guidance": "URGENT не входит в контракт API. Удалите неизвестный priority на стороне клиента, сохраните корректный поиск и верните page=0; UI показывает «Все». Не отправляйте URGENT серверу как допустимое значение и не включайте этот вход в положительные API-примеры."
+  }
+}

@@ -1,0 +1,682 @@
+[
+  {
+    "id": "checks-01",
+    "kind": "check",
+    "title": "Обновить одну заявку без мутации",
+    "lessonId": "w1-04",
+    "minutes": 25,
+    "concept": "Ссылки, копии и структурное разделение",
+    "summary": "Меняется только найденная запись; порядок и дополнительные поля сохраняются.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nМассив хранит ссылки на объекты. Spread массива не копирует элементы: присваивание item.status меняет старое состояние. Создавайте новый объект только для изменённой записи, сохраняя ссылки остальных. Как и в Java, две переменные могут ссылаться на один объект; поверхностная копия не равна clone всего графа.\n\n### Контракт API\n\nupdateStatus(items,id,status) принимает заявки с уникальными строковыми id и полями title/status (OPEN, IN_PROGRESS, DONE). Измените только совпавшую запись, сохранив порядок и остальные поля. Вход может быть frozen. Если id отсутствует или статус уже равен новому, верните тот же массив по ===.\n\n### Пример и новая проверка\n\nДля [Q-7 OPEN,Q-9 DONE] смените Q-7 на DONE: ссылка Q-9 остаётся прежней. Новый пример: отсутствующий X-99 должен вернуть исходный массив.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-01`. Редактируйте только `practice/checked/checks-01/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Меняется только найденная запись; порядок и дополнительные поля сохраняются.",
+      "Вход не мутирует; неизменённые объекты сохраняют ссылки.",
+      "Пустой список, отсутствующий id и прежний статус возвращают исходную ссылку."
+    ],
+    "hints": [
+      "Сначала найдите реальное изменение.",
+      "map сохраняет порядок; несовпавшие объекты возвращайте без копии.",
+      "Только для совпавшего элемента создайте {...item,status}."
+    ],
+    "explanation": "Новый контейнер сообщает об изменении, а прежние ссылки сохраняют идентичность остальных записей. Возврат исходного массива для no-op предотвращает лишнюю реакцию потребителей. Новый пример: добавьте owner в объект и убедитесь, что обновление сохраняет это поле.",
+    "relatedIds": [
+      "checks-02"
+    ],
+    "workspacePath": "practice/checked/checks-01",
+    "command": "npm.cmd run learn -- check checks-01",
+    "exercise": {
+      "id": "checks-01",
+      "lessonId": "w1-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-01",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "one-record",
+        "structural-sharing",
+        "no-op"
+      ],
+      "targetKey": "checks-01"
+    }
+  },
+  {
+    "id": "checks-02",
+    "kind": "check",
+    "title": "Проверить JSON до допуска в приложение",
+    "lessonId": "w2-04",
+    "minutes": 35,
+    "concept": "Синтаксис JSON и runtime-проверка формы",
+    "summary": "Различаются ошибки синтаксиса и структуры.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nJSON.parse проверяет синтаксис, но может вернуть null или объект с неверными полями. Сначала проверьте контейнер, затем метаданные и каждый элемент. TypeScript assertion не похож на Jackson с валидацией: он исчезает при выполнении. Даже Java DTO на сервере не гарантирует правильного ответа сети или mock.\n\n### Контракт API\n\nparseIssuePage(text) → {ok:true,value:page} либо {ok:false,error:\"invalid-json\"|\"invalid-shape\"}. page={items:Issue[],total:number}; total — безопасное неотрицательное целое не меньше items.length. Каждый Issue — объект с непустыми после trim строками id/title и status OPEN/IN_PROGRESS/DONE. Массивы/null вместо объектов запрещены. Дополнительные поля допустимы и сохраняются; строки не нормализуются. Плохой ввод не бросает исключение.\n\n### Пример и новая проверка\n\n{\"items\":[],\"total\":0} допустим, total:\"0\" — ошибка формы. Новый пример: total=1 при двух заявках отклоняется.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-02`. Редактируйте только `practice/checked/checks-02/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Различаются ошибки синтаксиса и структуры.",
+      "Проверяется каждый элемент, тип и диапазон total.",
+      "Пустая страница и дополнительные поля поддерживаются."
+    ],
+    "hints": [
+      "Оберните JSON.parse в try/catch.",
+      "typeof null равно object: отдельно исключите null и массив.",
+      "Используйте every и Number.isSafeInteger; проверяйте trim строк."
+    ],
+    "explanation": "Проверка контейнера предотвращает случайный TypeError при чтении items. Проверять нужно все записи, а не только первую. Discriminant ok позволяет вызывающему выбрать успешную ветку. Новый пример: добавьте к валидному массиву null — весь ответ должен быть отклонён.",
+    "relatedIds": [
+      "checks-03"
+    ],
+    "workspacePath": "practice/checked/checks-02",
+    "command": "npm.cmd run learn -- check checks-02",
+    "exercise": {
+      "id": "checks-02",
+      "lessonId": "w2-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-02",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "valid-page",
+        "bad-json",
+        "runtime-shape"
+      ],
+      "targetKey": "checks-02"
+    }
+  },
+  {
+    "id": "checks-03",
+    "kind": "check",
+    "title": "Сузить union по состоянию загрузки",
+    "lessonId": "w2-03",
+    "minutes": 30,
+    "concept": "Discriminated union вместо независимых флагов",
+    "summary": "Все четыре состояния дают определённый текст.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nНезависимые loading/error/data допускают противоречивые комбинации. Union перечисляет только допустимые состояния, а switch по kind открывает поля нужного варианта. Это похоже на sealed hierarchy и pattern matching в Java. Строковый kind существует в runtime, интерфейсы удаляются; optional-поля в общем интерфейсе ослабили бы контракт.\n\n### Контракт API\n\nВ solution.ts экспортируйте Issue={id:string,title:string,status:\"OPEN\"|\"IN_PROGRESS\"|\"DONE\"}, LoadState={kind:\"idle\"}|{kind:\"loading\"}|{kind:\"ready\",items:readonly Issue[]}|{kind:\"error\",message:string} и describeLoad(state:LoadState):string. Тексты: idle → \"Не загружено\", loading → \"Загрузка\", ready → \"Заявок: N\", error → \"Ошибка: MESSAGE\". Не используйте any; strict-компилятор должен отклонять ready без items и неизвестный kind.\n\n### Пример и новая проверка\n\n{kind:\"ready\",items:[]} даёт \"Заявок: 0\". Новый пример: message=\"403\" должна сохраниться в \"Ошибка: 403\", без доступа к items.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-03`. Редактируйте только `practice/checked/checks-03/solution.ts`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Все четыре состояния дают определённый текст.",
+      "Union отклоняет ready без items и неизвестный kind.",
+      "Проходят runtime и отдельная strict-компиляция потребителя."
+    ],
+    "hints": [
+      "Опишите варианты через |.",
+      "В switch(state.kind) тип сужается в каждой ветке.",
+      "Читать items можно только в ready; message — только в error."
+    ],
+    "explanation": "Narrowing связывает kind с доступными полями. Проверка компилирует отдельного потребителя и запрещённые вызовы: any не считается типобезопасным решением. Новый пример: добавьте состояние empty и найдите места, где нужна новая ветка.",
+    "relatedIds": [
+      "checks-04"
+    ],
+    "workspacePath": "practice/checked/checks-03",
+    "command": "npm.cmd run learn -- check checks-03",
+    "exercise": {
+      "id": "checks-03",
+      "lessonId": "w2-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-03",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "all-variants",
+        "union-types"
+      ],
+      "targetKey": "checks-03"
+    }
+  },
+  {
+    "id": "checks-04",
+    "kind": "check",
+    "title": "Преобразовать Page<T> без потери типов",
+    "lessonId": "w2-04",
+    "minutes": 30,
+    "concept": "Generic связывает вход, callback и результат",
+    "summary": "T связан с аргументом callback, U — с результатом.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nПри преобразовании DTO в модель представления меняются элементы страницы, но page/total остаются прежними. Два параметра типа связывают callback T→U с результатом Page<U>. Это похоже на Java Function<T,U> и Stream.map; TypeScript выводит U из callback. Generic не проверяет внешний JSON: эта функция работает уже после валидации.\n\n### Контракт API\n\nЭкспортируйте interface Page<T>{items:readonly T[];page:number;total:number} и mapPage<T,U>(page:Page<T>,transform:(item:T)=>U):Page<U>. Вызовите transform один раз на элемент в исходном порядке, верните новый объект и массив, сохраните page/total, не мутируйте вход. Для пустой страницы callback не вызывается. Тип результата должен выводиться без any.\n\n### Пример и новая проверка\n\n[2,5] после n=>String(n) даёт [\"2\",\"5\"] с прежними метаданными. Новый пример: из {id:\"AB\"} получите длину id; output.items[0] имеет тип number.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-04`. Редактируйте только `practice/checked/checks-04/solution.ts`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "T связан с аргументом callback, U — с результатом.",
+      "Порядок, метаданные и число вызовов сохранены.",
+      "Замороженный вход и пустая страница поддерживаются."
+    ],
+    "hints": [
+      "Не объявляйте callback через Function или any.",
+      "Используйте page.items.map(transform).",
+      "Результат имеет Page<U>, а не Page<T>."
+    ],
+    "explanation": "Пара T/U сохраняет информацию о преобразовании, хотя generic удаляется во время выполнения. readonly запрещает мутацию при компиляции, frozen проверяет её в runtime. Новый пример: callback со строкой, возвращающий {label}, должен вывести Page<{label:string}>.",
+    "relatedIds": [
+      "checks-05"
+    ],
+    "workspacePath": "practice/checked/checks-04",
+    "command": "npm.cmd run learn -- check checks-04",
+    "exercise": {
+      "id": "checks-04",
+      "lessonId": "w2-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-04",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "mapping",
+        "empty-page",
+        "generic-types"
+      ],
+      "targetKey": "checks-04"
+    }
+  },
+  {
+    "id": "checks-05",
+    "kind": "check",
+    "title": "Собрать PATCH только из изменённых полей",
+    "lessonId": "w5-05",
+    "minutes": 35,
+    "concept": "Отсутствие поля и null как разные команды",
+    "summary": "PATCH содержит только изменённые разрешённые поля.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nПолный объект формы и PATCH имеют разный смысл: отсутствие assignee оставляет прежнее значение, null снимает исполнителя. Поэтому нельзя удалять все falsy-значения. В Java для такого DTO часто нужно отдельное представление отсутствия поля. Partial в TypeScript делает поля optional, сохраняя их типы.\n\n### Контракт API\n\nЭкспортируйте IssueDraft={title:string;priority:\"LOW\"|\"NORMAL\"|\"HIGH\";assignee:string|null}, IssuePatch=Partial<IssueDraft> и buildPatch(before,after):IssuePatch. Сравнивайте title после trim обоих входов, пишите trimmed title. Остальные поля сравниваются напрямую. Добавляйте только изменённые поля, сохраняйте null, не меняйте вход. Типы должны отклонять произвольный priority и id.\n\n### Пример и новая проверка\n\nИз {title:\"A\",priority:\"LOW\",assignee:\"u1\"} в {title:\" A \",priority:\"HIGH\",assignee:null} получится {priority:\"HIGH\",assignee:null}. Новый пример: изменение только пробелов даёт {}.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-05`. Редактируйте только `practice/checked/checks-05/solution.ts`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "PATCH содержит только изменённые разрешённые поля.",
+      "null снимает исполнителя; нормализуется только title.",
+      "Strict-типы отклоняют id и неизвестный priority."
+    ],
+    "hints": [
+      "Создайте пустой IssuePatch и сравните поля независимо.",
+      "Для title сравните trim обоих значений.",
+      "Сравнивайте assignee с прежним значением, не проверяйте truthiness."
+    ],
+    "explanation": "Нормализация до сравнения предотвращает лишнее сохранение пробелов. Optional описывает отсутствие команды, nullable — явную очистку. Смешение этих состояний сохраняет прежнего исполнителя незаметно для пользователя. Новый пример: переназначьте null в user-2 и проверьте единственное поле PATCH.",
+    "relatedIds": [
+      "checks-06"
+    ],
+    "workspacePath": "practice/checked/checks-05",
+    "command": "npm.cmd run learn -- check checks-05",
+    "exercise": {
+      "id": "checks-05",
+      "lessonId": "w5-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-05",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "changed-fields",
+        "empty-patch",
+        "patch-types"
+      ],
+      "targetKey": "checks-05"
+    }
+  },
+  {
+    "id": "checks-06",
+    "kind": "check",
+    "title": "Восстановить фильтр из URL и очистить defaults",
+    "lessonId": "w4-05",
+    "minutes": 35,
+    "concept": "URL как сериализуемое состояние списка",
+    "summary": "Неверные status/page заменяются defaults.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nQuery-параметры — внешний строковый ввод. parseInt принимает начало \"4x\", что слишком мягко для номера страницы. Проверяйте весь формат. URLSearchParams выполняет правильное кодирование, как специальные URL-строители Java. Конкатенация q=\"A&B\" вручную создаст лишний параметр. При записи сохраняйте параметры других функций и hash.\n\n### Контракт API\n\nreadFilters(absoluteUrl) → {q,status,page}; q trim, отсутствующее q → \"\"; status ALL/OPEN/IN_PROGRESS/DONE, неизвестный → ALL. page — строка только десятичных цифр, дающая безопасное неотрицательное целое, иначе 0. writeFilters(absoluteUrl,state) принимает валидное состояние, trim q, записывает q/status/page, удаляет defaults \"\"/ALL/0, сохраняет pathname, остальные параметры и hash, возвращает абсолютный URL.\n\n### Пример и новая проверка\n\n?status=DONE&page=4x восстанавливается в {q:\"\",status:\"DONE\",page:0}. Новый пример: q=\"A&B+\" должен пройти запись/чтение без потери символов.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-06`. Редактируйте только `practice/checked/checks-06/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Неверные status/page заменяются defaults.",
+      "Кириллица, &, + и пробелы корректно восстанавливаются.",
+      "Сброс сохраняет sort и #list."
+    ],
+    "hints": [
+      "Используйте new URL и searchParams.",
+      "Для page нужны /^\\d+$/ и Number.isSafeInteger.",
+      "Default удаляйте через delete, остальные значения пишите set."
+    ],
+    "explanation": "Симметричные read/write восстанавливают фильтр после обновления страницы. Строгий разбор отвергает частичные числа и небезопасно большие значения. Нельзя стирать всю search-строку, поскольку там есть чужие параметры. Новый пример: theme=dark должен пережить очистку фильтра.",
+    "relatedIds": [
+      "checks-07"
+    ],
+    "workspacePath": "practice/checked/checks-06",
+    "command": "npm.cmd run learn -- check checks-06",
+    "exercise": {
+      "id": "checks-06",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-06",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "parsing",
+        "restoration",
+        "clear-defaults"
+      ],
+      "targetKey": "checks-06"
+    }
+  },
+  {
+    "id": "checks-07",
+    "kind": "check",
+    "title": "Собрать store на настоящих signals/computed",
+    "lessonId": "w3-03",
+    "minutes": 35,
+    "concept": "Исходное состояние и вычисляемые зависимости Angular",
+    "summary": "Возвращаются реальные Angular signals.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nsignal хранит исходное значение; computed кеширует результат и зависимости, прочитанные во время вычисления. Не храните visible/openCount в отдельных writable-сигналах: ручная синхронизация создаёт рассогласование. В отличие от обычного Java getter, чтение signal внутри computed регистрирует зависимость. Мутация массива по прежней ссылке может оставить computed устаревшим.\n\n### Контракт API\n\ncreateIssueStore(initial) возвращает {issues,query,visible,openCount,replaceStatus}. issues/query — реальные writable signals из @angular/core; query начинается с \"\". visible — computed-фильтр по title без учёта регистра и с trim запроса; пустой запрос показывает всё. openCount — computed количества OPEN во всём issues независимо от query. replaceStatus(id,status) обновляет одну запись без мутации initial. Повторное чтение visible без изменения зависимостей возвращает тот же массив.\n\n### Пример и новая проверка\n\n\" фОРМа \" показывает «Форма», но openCount считает весь список. Новый пример: выполните issues.set с новым массивом и прочитайте оба computed.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-07`. Редактируйте только `practice/checked/checks-07/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Возвращаются реальные Angular signals.",
+      "Производные данные обновляются после set и replaceStatus.",
+      "Вход не мутирует, computed кеширует повторное чтение."
+    ],
+    "hints": [
+      "Импортируйте signal и computed из @angular/core.",
+      "Читайте issues()/query() внутри callback computed.",
+      "replaceStatus использует update/map и новый объект."
+    ],
+    "explanation": "Angular регистрирует зависимость при чтении signal внутри вычисления. Новый массив инвалидирует кеш. openCount зависит от issues, не от visible: иначе поиск изменит общий счётчик. Новый пример: visible=[] при отсутствии совпадений, хотя openCount остаётся положительным.",
+    "relatedIds": [
+      "checks-08"
+    ],
+    "workspacePath": "practice/checked/checks-07",
+    "command": "npm.cmd run learn -- check checks-07",
+    "exercise": {
+      "id": "checks-07",
+      "lessonId": "w3-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-07",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "actual-signals",
+        "derived-updates",
+        "stable-computed"
+      ],
+      "targetKey": "checks-07"
+    }
+  },
+  {
+    "id": "checks-08",
+    "kind": "check",
+    "title": "Получить зависимость из текущего Angular Injector",
+    "lessonId": "w3-04",
+    "minutes": 30,
+    "concept": "InjectionToken, фабрика и область провайдера",
+    "summary": "Используются настоящий InjectionToken и текущая область DI.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nДочерний injector может переопределять токен. Глобальное создание repository внутри функции обходит локальную настройку и ломает тестируемость. inject вызывается в injection context: захватите зависимость при выполнении фабрики, не внутри позднего обработчика после await. Это напоминает Spring DI, но Angular имеет иерархию injector и явное ограничение контекста inject().\n\n### Контракт API\n\nЭкспортируйте ISSUE_REPOSITORY=new InjectionToken(...) и createIssueReader(). Функция вызывается Angular как useFactory и получает repository через inject(ISSUE_REPOSITORY). repository.list():Promise<Issue[]> предоставляется снаружи. Верните объект с async listOpen(): при каждом вызове он загружает свежий список, возвращает только OPEN по порядку и распространяет ошибку Promise. Не храните repository глобально и не создавайте свой injector.\n\n### Пример и новая проверка\n\nРодитель видит общий repository, дочерний override — локальный. Новый пример: createIssueReader() вне injection context должен дать стандартную ошибку Angular.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-08`. Редактируйте только `practice/checked/checks-08/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Используются настоящий InjectionToken и текущая область DI.",
+      "listOpen фильтрует свежий результат и сохраняет порядок.",
+      "Ошибка зависимости распространяется; injector кеширует экземпляр."
+    ],
+    "hints": [
+      "Импортируйте InjectionToken и inject.",
+      "Вызывайте inject непосредственно внутри фабрики.",
+      "Метод замыкается на repository и фильтрует await repository.list()."
+    ],
+    "explanation": "Фабрика захватывает зависимость в нужной области и использует её после завершения injection context. Поздний inject внутри listOpen вызвал бы NG0203. Тест переопределяет токен в дочернем injector, обнаруживая глобальные singleton. Новый пример: два child injector должны независимо видеть разные данные.",
+    "relatedIds": [
+      "checks-09"
+    ],
+    "workspacePath": "practice/checked/checks-08",
+    "command": "npm.cmd run learn -- check checks-08",
+    "exercise": {
+      "id": "checks-08",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-08",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "injection-scope",
+        "dependency-failure"
+      ],
+      "targetKey": "checks-08"
+    }
+  },
+  {
+    "id": "checks-09",
+    "kind": "check",
+    "title": "Создать Reactive Form с предсказуемым reset",
+    "lessonId": "w5-01",
+    "minutes": 40,
+    "concept": "FormGroup, validators и nullable/nonNullable controls",
+    "summary": "Форма — FormGroup с тремя controls и нужными defaults.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nReactive Forms хранит значения и валидность в controls. nonNullable влияет на reset: он возвращает начальное значение вместо null. Nullable assignee должен очищаться в null. Валидатор возвращает null при успехе и объект ошибки при нарушении. Это не Java Bean Validation: Angular запускает валидатор при изменении control, включая программное setValue.\n\n### Контракт API\n\ncreateIssueForm(initial?) возвращает настоящий FormGroup с title,priority,assignee. Defaults: \"\", \"NORMAL\", null. title/priority — nonNullable, initial задаёт их defaultValue. assignee nullable, после reset становится null даже если initial содержал имя. title валиден при trimmed длине 3..80 включительно; priority — LOW/NORMAL/HIGH. Валидатор не меняет введённый текст. initial содержит все три поля. Используйте @angular/forms.\n\n### Пример и новая проверка\n\ntitle=\"  abc  \" валиден и остаётся с пробелами, \" x \" невалиден. Новый пример: initial с LOW и исполнителем после reset сохраняет LOW, но очищает исполнителя.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-09`. Редактируйте только `practice/checked/checks-09/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Форма — FormGroup с тремя controls и нужными defaults.",
+      "Проверяются trimmed границы title и закрытый список priority.",
+      "reset возвращает начальные title/priority и assignee:null."
+    ],
+    "hints": [
+      "FormControl(initial,{nonNullable:true}) фиксирует reset обязательных строк.",
+      "Custom validator читает value и возвращает null либо объект.",
+      "Не ставьте nonNullable на assignee."
+    ],
+    "explanation": "nonNullable сохраняет defaultValue, поэтому это наблюдаемое поведение, не только тип. Проверка trim не переписывает ввод: нормализация перед сохранением остаётся отдельным шагом. Новый пример: title длиной 80 валиден, длиной 81 — нет.",
+    "relatedIds": [
+      "checks-10"
+    ],
+    "workspacePath": "practice/checked/checks-09",
+    "command": "npm.cmd run learn -- check checks-09",
+    "exercise": {
+      "id": "checks-09",
+      "lessonId": "w5-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-09",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "real-form",
+        "validation",
+        "initial-value-reset"
+      ],
+      "targetKey": "checks-09"
+    }
+  },
+  {
+    "id": "checks-10",
+    "kind": "check",
+    "title": "Добавить серверные ошибки, сохранив ввод",
+    "lessonId": "w5-04",
+    "minutes": 25,
+    "concept": "Ошибка ответа как состояние существующего control",
+    "summary": "Сообщения доступны через control.errors.server.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nПересоздание формы после 422 теряет ввод, touched и dirty. setErrors заменяет весь объект ошибок, поэтому server нужно объединить с текущими ошибками. Java validation map относится к DTO запроса, но на клиенте имена надо сопоставить с существующими controls. Серверный ответ не должен стирать локальный minlength.\n\n### Контракт API\n\napplyServerErrors(form,errors) возвращает undefined. form — настоящий FormGroup с плоскими controls; errors — Record<string,string[]> из проверенного ответа. Для существующего control и непустого списка установите {...currentErrors,server:[...messages]}. Не меняйте значения, dirty/touched или другие controls. Неизвестное поле и пустой список игнорируются. Повторная ошибка заменяет только server. Очистка при новом вводе вне объёма функции.\n\n### Пример и новая проверка\n\nПри title.errors={minlength:...} серверный [\"Занято\"] добавляет server. Новый пример: отсутствующий archived не должен создавать control или вызывать исключение.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-10`. Редактируйте только `practice/checked/checks-10/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Сообщения доступны через control.errors.server.",
+      "Локальные ошибки и ввод сохраняются.",
+      "Пустые списки и неизвестные поля игнорируются."
+    ],
+    "hints": [
+      "Проверьте наличие control по имени.",
+      "Пустой список не означает команду стереть ошибки.",
+      "В setErrors объедините control.errors и копию messages."
+    ],
+    "explanation": "Объединение сохраняет независимые причины невалидности. Копия массива не позволит поздней мутации DTO менять форму. Controls не пересоздаются, поэтому пользователь продолжает прежний ввод. Новый пример: второй ответ меняет только server, сохраняя minlength и touched.",
+    "relatedIds": [
+      "checks-11"
+    ],
+    "workspacePath": "practice/checked/checks-10",
+    "command": "npm.cmd run learn -- check checks-10",
+    "exercise": {
+      "id": "checks-10",
+      "lessonId": "w5-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-10",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "server-errors",
+        "unknown-fields"
+      ],
+      "targetKey": "checks-10"
+    }
+  },
+  {
+    "id": "checks-11",
+    "kind": "check",
+    "title": "Сделать поиск с debounce и отменой старого чтения",
+    "lessonId": "w4-04",
+    "minutes": 45,
+    "concept": "trim → debounceTime → distinctUntilChanged → switchMap",
+    "summary": "Trim предшествует сравнению, debounce равен 30ms.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nВвод опережает сеть. debounceTime ждёт паузу, distinctUntilChanged исключает одинаковые нормализованные строки, switchMap отписывается от прежнего чтения. Отписка прекращает доставку событий; транспорт решает, прерывать ли HTTP. Promise и Java CompletableFuture не дают поведения switchMap автоматически. Виртуальные часы RxJS делают проверку гонок воспроизводимой.\n\n### Контракт API\n\nsearchIssues(queries$,search) возвращает Observable. Нормализуйте trim, затем debounceTime(30), затем distinctUntilChanged. Непустой query вызывает search(query):Observable<Issue[]> через switchMap; сначала {kind:\"loading\",query}, затем {kind:\"ready\",query,items}. Пустой query выдаёт только {kind:\"ready\",query:\"\",items:[]} без вызова search. Новое значение отменяет старое чтение после debounce. Ошибки search здесь могут завершать поток: восстановление изучается в checks-12.\n\n### Пример и новая проверка\n\n\" api \" и последующее \"api\" вызывают сеть один раз. Новый пример: очистите строку, пока медленный запрос ждёт ответа — старый результат не должен появиться.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-11`. Редактируйте только `practice/checked/checks-11/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Trim предшествует сравнению, debounce равен 30ms.",
+      "Результат отменённого чтения не попадает в выдачу.",
+      "Пустой запрос не вызывает сеть и выдаёт ready с []."
+    ],
+    "hints": [
+      "Верните queries$.pipe; не делайте внутренний subscribe.",
+      "switchMap получает уже задержанный нормализованный query.",
+      "Непустая ветка использует map/startWith, пустая — of."
+    ],
+    "explanation": "switchMap управляет внутренней подпиской, debounce ограничивает частоту операций, distinct исключает одинаковые запросы. Проверка наблюдает также интервал подписки старого чтения: правильного последнего значения недостаточно. Новый пример: три ввода за 10ms должны запустить только последний запрос после паузы.",
+    "relatedIds": [
+      "checks-12"
+    ],
+    "workspacePath": "practice/checked/checks-11",
+    "command": "npm.cmd run learn -- check checks-11",
+    "exercise": {
+      "id": "checks-11",
+      "lessonId": "w4-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-11",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "latest-wins",
+        "cancel-stale",
+        "trim-debounce-distinct"
+      ],
+      "targetKey": "checks-11"
+    }
+  },
+  {
+    "id": "checks-12",
+    "kind": "check",
+    "title": "Пережить ошибку чтения и повторить тот же id",
+    "lessonId": "w4-03",
+    "minutes": 35,
+    "concept": "catchError внутри запроса сохраняет внешний поток",
+    "summary": "Ошибка превращается в состояние, ids$ остаётся живым.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nОшибка завершает Observable. catchError вокруг всего ids$ заменяет всю цепочку, поэтому следующие действия могут перестать работать. Обрабатывайте ожидаемую ошибку внутри switchMap, на уровне одного запроса. Это похоже на разницу между try/catch вокруг одного Java-вызова и вокруг всего цикла.\n\n### Контракт API\n\nloadIssueState(ids$,load) возвращает Observable. Для каждого id без debounce и distinct выдайте {kind:\"loading\",id}; успех load(id) → {kind:\"ready\",id,issue}; Error → {kind:\"error\",id,message:error.message}; неизвестная форма ошибки → message:\"Ошибка загрузки\". Новый id отменяет прежнее чтение через switchMap. После отказа повтор того же id запускает новый load. Ошибки не выходят через error-канал.\n\n### Пример и новая проверка\n\nX → offline → X → success даёт loading,error,loading,ready. Новый пример: медленное A и быстрое B оставляют только результат B.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-12`. Редактируйте только `practice/checked/checks-12/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Ошибка превращается в состояние, ids$ остаётся живым.",
+      "Повтор того же id после отказа вызывает новый load.",
+      "Новое id отменяет старую подписку."
+    ],
+    "hints": [
+      "catchError находится в pipe Observable от load.",
+      "Верните of(errorState), завершая только запрос.",
+      "startWith задаёт loading каждой попытки; distinct не нужен."
+    ],
+    "explanation": "Внутренний catchError ограничивает отказ одной попыткой. Внешний поток принимает следующие действия, включая тот же id. switchMap предотвращает показ покинутой заявки. Новый пример: после двух ошибок подряд третья попытка всё ещё должна достичь ready.",
+    "relatedIds": [
+      "checks-13"
+    ],
+    "workspacePath": "practice/checked/checks-12",
+    "command": "npm.cmd run learn -- check checks-12",
+    "exercise": {
+      "id": "checks-12",
+      "lessonId": "w4-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-12",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "error-then-retry",
+        "latest-detail"
+      ],
+      "targetKey": "checks-12"
+    }
+  },
+  {
+    "id": "checks-13",
+    "kind": "check",
+    "title": "Связать подписку с настоящим DestroyRef",
+    "lessonId": "w3-04",
+    "minutes": 25,
+    "concept": "Жизненный цикл Angular и takeUntilDestroyed",
+    "summary": "Подписка связана с реальным жизненным циклом Angular.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nПодписка может пережить компонент. takeUntilDestroyed завершает её при уничтожении DestroyRef владельца. Явная передача DestroyRef позволяет вызывать оператор вне injection context. Как детерминированное освобождение ресурса в Java, отписка запускает cleanup; garbage collection сама по себе не гарантирует этого, потому что источник удерживает callback.\n\n### Контракт API\n\nwatchValues(source$,destroyRef,onValue) использует takeUntilDestroyed(destroyRef) из @angular/core/rxjs-interop, передаёт next в onValue и возвращает Subscription. После destroy больше нет callback, teardown выполняется один раз, subscription.closed=true. Уже уничтоженный DestroyRef вообще не допускает подписку источника. Проверка создаёт настоящий EnvironmentInjector, получает его DestroyRef и уничтожает injector.\n\n### Пример и новая проверка\n\nИсточник выдаёт 1, затем destroy, затем пытается выдать 2: обработчик видит [1]. Новый пример: уничтожьте владельца до watchValues и посчитайте подписки источника.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-13`. Редактируйте только `practice/checked/checks-13/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Подписка связана с реальным жизненным циклом Angular.",
+      "После destroy нет значений и ресурса источника.",
+      "Уже уничтоженный владелец не запускает источник."
+    ],
+    "hints": [
+      "Импортируйте takeUntilDestroyed из @angular/core/rxjs-interop.",
+      "Передайте явный destroyRef оператору, затем subscribe.",
+      "Верните Subscription от subscribe, не Observable."
+    ],
+    "explanation": "Отписка закрывает Subscriber и запускает teardown, прекращая и события, и удержание ресурса. Already-destroyed важен для отложенной работы после навигации: она не должна стартовать. Новый пример: проверьте, что обычное завершение source тоже закрывает Subscription.",
+    "relatedIds": [
+      "checks-14"
+    ],
+    "workspacePath": "practice/checked/checks-13",
+    "command": "npm.cmd run learn -- check checks-13",
+    "exercise": {
+      "id": "checks-13",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-13",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "destroy-unsubscribes",
+        "destroyed-before-subscribe"
+      ],
+      "targetKey": "checks-13"
+    }
+  },
+  {
+    "id": "checks-14",
+    "kind": "check",
+    "title": "Не дублировать сохранение при повторном клике",
+    "lessonId": "w5-03",
+    "minutes": 35,
+    "concept": "exhaustMap для команды записи",
+    "summary": "Максимум одна активная запись, busy-клики игнорируются.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nДля записи отмена клиентской подписки не доказывает отмену серверного действия. exhaustMap принимает первую команду и игнорирует новые, пока внутренний поток не завершится. Это похоже на busy-guard вокруг Java async-команды. Защита действует в клиентском потоке, а не обеспечивает exactly-once на сервере.\n\n### Контракт API\n\nsaveOnce(clicks$,save) возвращает Observable. Событие clicks$ — payload заявки; save(payload):Observable<Issue>. Пока save активен, следующие payload игнорируются, не ставятся в очередь и не отменяют запись. Успех → {kind:\"saved\",issue}; Error → {kind:\"error\",message:error.message}; неизвестная ошибка → \"Ошибка сохранения\". Ошибки обрабатываются внутри операции, следующий клик снова вызывает save. Принятый payload передаётся без изменений.\n\n### Пример и новая проверка\n\nA, B во время сохранения A, C после завершения: save вызван для A и C. Новый пример: после ошибки первый следующий клик должен пройти.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-14`. Редактируйте только `practice/checked/checks-14/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Максимум одна активная запись, busy-клики игнорируются.",
+      "Успех и ошибка представлены значениями.",
+      "После отказа доступен повтор без пересоздания потока."
+    ],
+    "hints": [
+      "Нужен exhaustMap, не mergeMap/concatMap/switchMap.",
+      "Преобразуйте ответ через map внутри save.pipe.",
+      "catchError возвращает of и остаётся внутри exhaustMap."
+    ],
+    "explanation": "exhaustMap держит первую подписку до завершения. catchError превращает отказ в значение и завершает только эту операцию, освобождая возможность повторить. Новый пример: три быстрых клика с разными payload во время одного запроса дают один save.",
+    "relatedIds": [
+      "checks-15"
+    ],
+    "workspacePath": "practice/checked/checks-14",
+    "command": "npm.cmd run learn -- check checks-14",
+    "exercise": {
+      "id": "checks-14",
+      "lessonId": "w5-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-14",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "ignore-double-save",
+        "failure-allows-retry"
+      ],
+      "targetKey": "checks-14"
+    }
+  },
+  {
+    "id": "checks-15",
+    "kind": "check",
+    "title": "Начать Promise параллельно и сохранить порядок",
+    "lessonId": "w2-02",
+    "minutes": 25,
+    "concept": "Порядок запуска, завершения и результата Promise.all",
+    "summary": "Все чтения стартуют до завершения первого.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nawait в цикле начинает следующее чтение после предыдущего. Для независимых чтений создайте все Promise, затем ждите их вместе. Promise.all сохраняет позиции исходного массива независимо от скорости сети. Это близко к CompletableFuture.allOf, но JavaScript сразу собирает упорядоченный массив. Речь об одновременном ожидании I/O, не о нескольких CPU-потоках.\n\n### Контракт API\n\nasync loadDashboard(ids,load) принимает строки id и load(id):Promise<Issue>. Вызовите load для всех id синхронно до ожидания любого результата; верните Promise массива в порядке ids. Пустой ids → [] без вызова load. Отказ любого Promise отклоняет общий результат той же ошибкой, не отменяя остальные операции. Повторяющиеся id означают отдельные вызовы. load по контракту возвращает Promise, синхронные throw вне задачи.\n\n### Пример и новая проверка\n\nids=[A,B,C], завершения C,A,B → результат [A,B,C]. Новый пример: [A,A] вызывает два чтения, дедупликация здесь не требуется.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-15`. Редактируйте только `practice/checked/checks-15/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Все чтения стартуют до завершения первого.",
+      "Результат сохраняет порядок ids.",
+      "Пустой ввод и отказ соблюдают контракт."
+    ],
+    "hints": [
+      "map создаёт массив Promise без await.",
+      "Передайте массив в Promise.all.",
+      "Не превращайте ошибку в успешный []."
+    ],
+    "explanation": "Операции запускаются при вызове load, а Promise.all объединяет завершения. Порядок результата не зависит от сети. Ошибку нельзя скрывать пустым списком: UI иначе покажет ложное успешное состояние. Новый пример: второй запрос падает раньше первого — общий Promise должен отклониться.",
+    "relatedIds": [
+      "checks-16"
+    ],
+    "workspacePath": "practice/checked/checks-15",
+    "command": "npm.cmd run learn -- check checks-15",
+    "exercise": {
+      "id": "checks-15",
+      "lessonId": "w2-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-15",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "parallel-order",
+        "reject-and-empty"
+      ],
+      "targetKey": "checks-15"
+    }
+  },
+  {
+    "id": "checks-16",
+    "kind": "check",
+    "title": "Объединить страницы без дублей и потери обновлений",
+    "lessonId": "w4-05",
+    "minutes": 30,
+    "concept": "Map сохраняет первую позицию и последнюю версию",
+    "summary": "Один объект на id; последняя версия побеждает.",
+    "placement": "replacement",
+    "brief": "## Механизм и мост из Java\n\nДогружаемая страница может повторять известную заявку. Конкатенация создаёт дубль, фильтрация всех повторов теряет свежие данные. Индекс Map позволяет первой встрече задать позицию, последней — содержимое. Это похоже на Java LinkedHashMap. В отличие от {}, Map безопасен для произвольных строковых ключей вроде __proto__.\n\n### Контракт API\n\nmergePage(previous,incoming) возвращает новый массив уникальных заявок по строковому id. Порядок — первое появление при обходе previous, затем incoming. Значение — последний объект с этим id, включая повторы внутри одной страницы. Не объединяйте поля версий: используйте целиком последний объект. Вход не мутирует и может быть frozen. Допустимы любые строковые id, включая __proto__ и constructor.\n\n### Пример и новая проверка\n\n[A(old),B] + [B(new),C(first),C(last)] → [A(old),B(new),C(last)]. Новый пример: previous тоже содержит повтор A — сохраните первую позицию и последнюю версию.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check checks-16`. Редактируйте только `practice/checked/checks-16/solution.mjs`. Сначала запишите прогноз или собственную попытку в тренажёре. Отчёт сохраняется в practice/reports и не отмечает урок освоенным автоматически.",
+    "acceptance": [
+      "Один объект на id; последняя версия побеждает.",
+      "Позиция соответствует первому появлению.",
+      "Нет мутаций; пустые страницы и специальные id поддерживаются."
+    ],
+    "hints": [
+      "Создайте Map и обойдите оба массива по порядку.",
+      "set существующего ключа обновляет значение без перемещения.",
+      "Верните [...map.values()], не меняйте previous через push."
+    ],
+    "explanation": "Map разделяет идентичность и позицию записи: повторный set заменяет значение, сохраняя порядок ключа. Это стабилизирует пересекающиеся страницы и не теряет обновления. Новый пример: новая версия B без старого поля owner должна полностью заменить B, не наследуя owner.",
+    "relatedIds": [
+      "checks-01"
+    ],
+    "workspacePath": "practice/checked/checks-16",
+    "command": "npm.cmd run learn -- check checks-16",
+    "exercise": {
+      "id": "checks-16",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-16",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "deduplicate-replace",
+        "new-page-fixtures"
+      ],
+      "targetKey": "checks-16"
+    }
+  }
+]

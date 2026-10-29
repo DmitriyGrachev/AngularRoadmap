@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import { Subject } from 'rxjs';
+const queries = new Subject(), first = new Subject(), second = new Subject(), results = [];
+const subscription = solution.searchLatest(queries, query => query === 'с' ? first : second).subscribe(value => results.push(value));
+queries.next('с'); queries.next('сеть'); second.next(['сеть']); first.next(['устаревшее с']); subscription.unsubscribe();
+console.log({ results, expected: [['сеть']] });
+assert.deepEqual(results, [['сеть']]);
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

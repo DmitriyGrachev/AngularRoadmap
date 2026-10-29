@@ -1,0 +1,518 @@
+[
+  {
+    "id": "middle-01",
+    "kind": "check",
+    "title": "Ограничить параллелизм и сохранить порядок",
+    "lessonId": "w7-01",
+    "minutes": 60,
+    "concept": "Worker pool и fail-fast",
+    "summary": "Ни один момент не содержит больше limit активных работ.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nPromise.all наблюдает переданные promises; операции обычно запускаются при их создании. Сам Promise.all не ограничивает число операций. Общий индекс раздаёт следующую работу свободному worker; результаты пишутся по исходному индексу. Аналогия с bounded executor полезна только для ограничения нагрузки: JavaScript здесь не создаёт CPU-потоки.\n\n### Контракт API\n\nЭкспортируйте `async mapConcurrent(items, limit, worker)`. `items` — массив, `worker(item,index)` возвращает значение или Promise. Результат — Promise массива значений в исходном порядке. Одновременно выполняются не более `limit` работ. `limit` — положительное целое; иначе Promise отклоняется с RangeError, даже для пустого массива. Пустой ввод даёт []. Синхронный throw и rejected Promise отклоняют итог с тем же объектом ошибки. После того как ошибка замечена, новые работы не запускаются; уже запущенные могут завершиться. Ввод не изменяется. Отмена уже начатой работы в этот контракт не входит.\n\n### Пример и новая проверка\n\nПри limit=2 сначала запускаются a и b. Завершение b разрешает c, хотя a ещё выполняется. Для завершения b,c,a итог всё равно [A,B,C]. Новый пример: первая операция бросает ошибку, в очереди ещё десять — они не должны стартовать после обнаружения отказа.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-01`. Редактируйте только `practice/middle/middle-01/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Ни один момент не содержит больше limit активных работ.",
+      "Порядок результата совпадает с входом, независимо от порядка завершения.",
+      "Плохой limit и ошибка worker обрабатываются без запуска остатка очереди."
+    ],
+    "hints": [
+      "Не создавайте Promise для каждого элемента заранее.",
+      "Несколько async workers могут брать следующий индекс из общей переменной.",
+      "Запишите результат по индексу; общий флаг остановит запуск после catch."
+    ],
+    "explanation": "Ограничивается число незавершённых операций, а не размер итогового массива. Проверка использует управляемые promises без ожидания реального времени. Это не проверка пропускной способности сети: перенос в приложение требует AbortSignal и наблюдения за отменой HTTP.",
+    "relatedIds": [
+      "middle-02"
+    ],
+    "workspacePath": "practice/middle/middle-01",
+    "command": "npm.cmd run learn -- check middle-01",
+    "exercise": {
+      "id": "middle-01",
+      "lessonId": "w7-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-01",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "bounded-ordered",
+        "failure-stops-launch",
+        "empty-and-limit"
+      ],
+      "targetKey": "middle-01"
+    }
+  },
+  {
+    "id": "middle-02",
+    "kind": "check",
+    "title": "Проверить DTO и преобразовать дату на границе",
+    "lessonId": "w7-02",
+    "minutes": 55,
+    "concept": "Runtime DTO, календарная дата и идентичность",
+    "summary": "Форма и все записи проверены до допуска в модель.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nHTTP boundary принимает unknown. После проверки данные можно привести к удобной модели UI; interface или assertion не выполняет валидацию. Уникальность ID нужна для tracking, selection и сопоставления ошибок, даже если сервер обычно гарантирует её.\n\n### Контракт API\n\nЭкспортируйте `decodeIssues(input)` → `{ok:true,value:Array<{id:string,title:string,createdAt:Date}>}` либо `{ok:false,error:\"invalid-data\"}`. Вход — массив обычных JSON-подобных объектов с непустыми после trim строками id/title и строкой createdAt строго YYYY-MM-DD. Дата должна существовать в календаре; дата превращается в новый Date в UTC, 00:00:00.000. id/title нормализуются trim; ID уникальны после нормализации. Лишние поля игнорируются в результате. При любой плохой записи отклоняется весь массив, без исключения и частичного успеха. Пустой массив допустим. Вход не мутирует, каждый вызов создаёт собственные Date.\n\n### Пример и новая проверка\n\n\"2024-02-29\" допустима, \"2023-02-29\" и \"2024-02-30\" нет. ID \"a\" и \" a \" конфликтуют. Новый пример: измените год Date из первого результата — второй результат и исходная строка остаются прежними.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-02`. Редактируйте только `practice/middle/middle-02/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Форма и все записи проверены до допуска в модель.",
+      "Дата проверяется по календарю, ID — после trim.",
+      "Выход содержит только id/title/createdAt и не разделяет изменяемые даты между вызовами."
+    ],
+    "hints": [
+      "Отдельно исключите null, массив вместо записи и неправильный тип поля.",
+      "Date может нормализовать 30 февраля: сравните сериализованный YYYY-MM-DD с исходным.",
+      "Set хранит уже нормализованные ID; итог формируйте в новом массиве."
+    ],
+    "explanation": "Успех означает согласованный UI DTO, а не только корректный JSON. Вызов не доказывает контракт реального backend; добавьте API contract test в интеграционном задании.",
+    "relatedIds": [
+      "middle-03"
+    ],
+    "workspacePath": "practice/middle/middle-02",
+    "command": "npm.cmd run learn -- check middle-02",
+    "exercise": {
+      "id": "middle-02",
+      "lessonId": "w7-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-02",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "mapped-boundary",
+        "invalid-calendar-and-shape",
+        "duplicates-and-fresh-dates"
+      ],
+      "targetKey": "middle-02"
+    }
+  },
+  {
+    "id": "middle-03",
+    "kind": "check",
+    "title": "Сохранить инварианты выбора в Signals store",
+    "lessonId": "w8-01",
+    "minutes": 60,
+    "concept": "Derived state, immutable update и no-op",
+    "summary": "Публичные значения — реальные Signals; выбранная запись относится к текущему списку.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nВыбранный объект не должен храниться независимо от списка: после замены списка это был бы устаревший snapshot. Храните ID, вычисляйте selected, а команды store поддерживают инварианты. Отсутствие реального изменения должно сохранять ссылку контейнера.\n\n### Контракт API\n\n`createSelectionStore(items)` возвращает настоящие Angular Signals `items`, `selectedId`, `selected` и методы `select(id|null)`, `replace(items)`, `rename(id,title)`. Входные записи имеют уникальные id и title. Изначально selectedId и selected равны null. select(null) сбрасывает выбор; известный ID выбирается, неизвестный игнорируется. selected — текущий объект из items либо null. replace устанавливает новый список: сохраняет ID, если запись осталась, иначе сбрасывает выбор. rename создаёт новый массив и новый объект только для изменённой записи; остальные объекты и все дополнительные поля сохраняются. Для отсутствующего ID или прежнего title ссылка items() остаётся прежней. Входные массивы и записи не мутируют. Допустимы только signal/computed из установленного @angular/core, имитация функции-геттера не подходит.\n\n### Пример и новая проверка\n\nВыберите b, затем замените список на [{id:\"b\",title:\"New\"}]: selected ссылается на новый b. Удаление b сбрасывает выбор. Новый пример: переименуйте a при выбранном a; selected сразу показывает новое title.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-03`. Редактируйте только `practice/middle/middle-03/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Публичные значения — реальные Signals; выбранная запись относится к текущему списку.",
+      "replace не оставляет ID исчезнувшей записи.",
+      "rename сохраняет неизменённые ссылки и не создаёт обновление для no-op."
+    ],
+    "hints": [
+      "selected удобно выразить через computed и find.",
+      "Проверяйте существование ID до select; проверяйте его снова после replace.",
+      "До map проверьте, действительно ли title изменился."
+    ],
+    "explanation": "Инвариант поддерживается командами store, а вычисляемые данные не дублируются. Это локальная модель состояния: SSR, DI scope и HTTP-конкуренция проверяются отдельно в feature-практикуме.",
+    "relatedIds": [
+      "middle-04"
+    ],
+    "workspacePath": "practice/middle/middle-03",
+    "command": "npm.cmd run learn -- check middle-03",
+    "exercise": {
+      "id": "middle-03",
+      "lessonId": "w8-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-03",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "signals-and-selection",
+        "replace-selection-invariant",
+        "immutable-rename-noop"
+      ],
+      "targetKey": "middle-03"
+    }
+  },
+  {
+    "id": "middle-04",
+    "kind": "check",
+    "title": "Сделать фильтры устойчивыми к URL roundtrip",
+    "lessonId": "w8-02",
+    "minutes": 60,
+    "concept": "Нормализация маршрута и сохранение чужих параметров",
+    "summary": "Плохие и повторные значения дают однозначное нормализованное состояние.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nURL — сериализованный публичный ввод, доступный закладкам и ручному редактированию. Единая нормализация предотвращает разные трактовки состоянием компонента и маршрутом; изменение фильтра не должно стирать состояние соседних возможностей.\n\n### Контракт API\n\nЭкспортируйте `readRoute(url)` и `writeRoute(url,filters)` для абсолютного URL. Filters: `{q:string,statuses:string[],page:number,pageSize:number,sort:string}`. Нормализованный q обрезан trim. statuses содержит только OPEN, IN_PROGRESS, DONE без повторений и именно в этом порядке; URL использует повторяемый ключ status. page — безопасное целое >=0; при чтении допустима только строка из десятичных цифр, иначе 0. pageSize — 10|25|50, по умолчанию 25; при чтении только точная строка \"10\"/\"25\"/\"50\". sort — title|updated, по умолчанию updated. Для одиночных URL-полей берётся первое значение. writeRoute нормализует runtime-поля: q не-строка→\"\", statuses не-массив→[], нечисловой/нецелый page→0, неподдерживаемые pageSize/sort→defaults. Удаляет все старые q/status/page/pageSize/sort, пишет нормализованные значения и пропускает defaults (\"\",[],0,25,updated). Возвращает строку URL, сохраняет origin/path/hash и все чужие параметры, включая повторения. Вход filters не мутирует.\n\n### Пример и новая проверка\n\nstatus=DONE&status=OPEN&status=DONE превращается в [\"OPEN\",\"DONE\"]. q со знаком & проходит roundtrip без потери. Новый пример: tag=a&tag=b и #row-7 должны сохраниться после записи defaults.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-04`. Редактируйте только `practice/middle/middle-04/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Плохие и повторные значения дают однозначное нормализованное состояние.",
+      "write→read сохраняет нормализованные фильтры.",
+      "Чужие query-параметры, pathname и hash сохраняются; defaults исчезают."
+    ],
+    "hints": [
+      "Для повторяемого status нужен getAll; для одиночных полей — get.",
+      "Сначала удалите только пять собственных ключей, затем добавьте необходимые.",
+      "Общая нормализация для read/write уменьшает расхождения."
+    ],
+    "explanation": "Проверяется URL-контракт без Router lifecycle. В Angular используйте нормализацию как отдельную границу; отдельно проверьте Back/Forward, замену истории и сброс page при пользовательском изменении фильтра.",
+    "relatedIds": [
+      "middle-05"
+    ],
+    "workspacePath": "practice/middle/middle-04",
+    "command": "npm.cmd run learn -- check middle-04",
+    "exercise": {
+      "id": "middle-04",
+      "lessonId": "w8-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-04",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "validated-multifilters",
+        "roundtrip-and-preservation",
+        "canonical-defaults-and-invalid-write"
+      ],
+      "targetKey": "middle-04"
+    }
+  },
+  {
+    "id": "middle-05",
+    "kind": "check",
+    "title": "Реализовать кеш чтения с управляемым временем жизни",
+    "lessonId": "w9-01",
+    "minutes": 80,
+    "concept": "RxJS share, replay, invalidation и teardown",
+    "summary": "Чтение ленивое, параллельные подписки разделяются, success повторяется.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nКеш Observable — это ещё и политика подписок. Успешное завершение можно повторить следующему подписчику; ошибка или отмена незавершённого источника не должны оставлять отравленную запись. Invalidation должна отделять поколения запроса.\n\n### Контракт API\n\n`createReadCache(load)` → `{read(key),invalidate(key)}`. key — строка, load(key) возвращает cold Observable одного результата либо ошибку, может бросить синхронно. read возвращает Observable и не вызывает load до подписки. Подписчики одного key делят один активный источник; после успешного complete сохраняется и replay последнего значения. Ошибка передаётся подписчикам, запись удаляется, следующая подписка вызывает новый load. Синхронный throw преобразуется в Observable error. Пока есть хотя бы один подписчик, активный источник не отменяется; после ухода последнего до complete выполняется teardown и запись забывается. invalidate(key) забывает запись для будущих подписок, но не отменяет существующих: они завершаются своим старым значением/ошибкой и не удаляют более новую запись. Ключи независимы. Используйте RxJS, без ручной подписки, живущей вне подписчика.\n\n### Пример и новая проверка\n\nДва подписчика a создают один load; после success третий сразу получает сохранённое значение. Новый пример: invalidate во время a создаёт для нового подписчика новый load, оба поколения могут завершиться в любом порядке.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-05`. Редактируйте только `practice/middle/middle-05/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Чтение ленивое, параллельные подписки разделяются, success повторяется.",
+      "Ошибки и invalidate позволяют новый запрос без повреждения нового поколения.",
+      "Последний unsubscribe отменяет активный источник; завершённый success остаётся в кеше."
+    ],
+    "hints": [
+      "Внешний defer позволяет выбирать запись Map при каждой подписке.",
+      "share с ReplaySubject(1) позволяет явно задать reset для error/complete/refCount.",
+      "При finalize удаляйте только текущую запись и только незавершённый источник."
+    ],
+    "explanation": "Тесты используют Subject и Observable teardown, без сети и sleeps. В настоящем HttpClient отмена подписки обычно отменяет клиентский запрос, но не гарантирует отмены уже начатой серверной операции.",
+    "relatedIds": [
+      "middle-06"
+    ],
+    "workspacePath": "practice/middle/middle-05",
+    "command": "npm.cmd run learn -- check middle-05",
+    "exercise": {
+      "id": "middle-05",
+      "lessonId": "w9-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-05",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "lazy-shared-replayed",
+        "errors-and-invalidation",
+        "last-unsubscribe-cancels"
+      ],
+      "targetKey": "middle-05"
+    }
+  },
+  {
+    "id": "middle-06",
+    "kind": "check",
+    "title": "Сериализовать записи и восстановиться после отказа",
+    "lessonId": "w9-02",
+    "minutes": 65,
+    "concept": "concatMap, inner catchError и отмена очереди",
+    "summary": "Активна только одна запись; итоговые события сохраняют порядок команд.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nПараллельные записи нарушают порядок, switchMap теряет ожидание результата прежней записи. Очередь concatMap ждёт завершения каждого запроса. Ошибка должна стать результатом конкретной команды, чтобы очередь продолжила работу.\n\n### Контракт API\n\n`serializeWrites(commands$,save)` возвращает Observable результатов. Команды имеют уникальный id и любые поля, save получает исходный объект. Успешный save — Observable с одним значением и complete; ошибка может быть Observable error или синхронный throw. До подписки ничего не запускается. Записи запускаются строго по одной в порядке команд. Успех даёт `{id,ok:true,value}`, отказ `{id,ok:false,error:\"save-failed\"}`, без текста исходной ошибки. После отказа запускается следующая запись. Завершение commands$ дожидается очереди. Unsubscribe отменяет активную внутреннюю подписку, отписывается от commands$ и не запускает оставшиеся команды. Используйте RxJS. Этот контракт не моделирует idempotency или rollback на сервере.\n\n### Пример и новая проверка\n\nКоманды a,b,c пришли сразу; пока a не complete, b не запускается. Ошибка b становится одним failed result, c всё равно выполняется. Новый пример: save(a) бросает до возврата Observable — b должен пройти.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-06`. Редактируйте только `practice/middle/middle-06/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Активна только одна запись; итоговые события сохраняют порядок команд.",
+      "Внутренняя ошибка и синхронный throw не завершают всю очередь.",
+      "Отписка прекращает активную работу и отбрасывает очередь."
+    ],
+    "hints": [
+      "За порядок отвечает concatMap, а не mergeMap.",
+      "defer откладывает save и перехватывает синхронный throw.",
+      "catchError размещается внутри concatMap и возвращает of результата отказа."
+    ],
+    "explanation": "Очередь сохраняет порядок одного клиента. Другие вкладки и клиенты требуют server version/idempotency; последующее упражнение рассматривает версионное optimistic state.",
+    "relatedIds": [
+      "middle-07"
+    ],
+    "workspacePath": "practice/middle/middle-06",
+    "command": "npm.cmd run learn -- check middle-06",
+    "exercise": {
+      "id": "middle-06",
+      "lessonId": "w9-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-06",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "serial-order-and-recovery",
+        "synchronous-error-and-lazy",
+        "unsubscribe-discards-queue"
+      ],
+      "targetKey": "middle-06"
+    }
+  },
+  {
+    "id": "middle-07",
+    "kind": "check",
+    "title": "Собрать вложенную typed form с общими ограничениями",
+    "lessonId": "w10-01",
+    "minutes": 75,
+    "concept": "Typed Reactive Forms и cross-field validation",
+    "summary": "Настоящие вложенные Angular controls сохраняют строгие типы и исходные значения.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nТипы структуры не заменяют runtime validators. Ограничение интервала относится к группе, уникальность кодов — к массиву, а required — к полю. Такой уровень ошибки позволяет шаблону показать её у правильного элемента.\n\n### Контракт API\n\nВ solution.ts экспортируйте `EditorInput={title:string,schedule:{start:number,end:number},rows:Array<{id:string,code:string,quantity:number}>}` и `createEditor(input)`. Возвращается настоящий Angular FormGroup: title — nonNullable `FormControl<string>`, schedule — FormGroup с nonNullable числовыми start/end, rows — FormArray групп с nonNullable id:string, code:string, quantity:number. title имеет Validators.required и minLength(3), code — required, quantity — required и min(1); стандартная семантика Angular, дополнительная trim-валидация этих полей не требуется. schedule имеет ошибку `{order:true}` тогда и только тогда, когда end<=start. rows имеет `{duplicateCode:true}` при повторе непустых кодов после trim и приведения к нижнему регистру. Ошибки пересчитываются при изменении контролов и добавлении/удалении строк, исходный input не мутирует. Входная структура типизирована, проверка unknown здесь не требуется. Strict TypeScript должен отвергать null для каждого из шести контролов и значения другого типа (числа для строковых полей, строки для числовых); any не должен стирать типы. После редактирования form.reset() без аргумента восстанавливает исходные nonNullable значения всех существующих контролов, а не null.\n\n### Пример и новая проверка\n\nstart=2,end=2 → schedule.order. API и \" api \" → rows.duplicateCode. Новый пример: удалить строку, создающую дубликат; ошибка массива исчезает.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-07`. Редактируйте только `practice/middle/middle-07/solution.ts`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Настоящие вложенные Angular controls сохраняют строгие типы и исходные значения.",
+      "Полевая валидация отделена от ошибок группы и массива.",
+      "Cross-field ошибки появляются и исчезают при редактировании и удалении строк."
+    ],
+    "hints": [
+      "Создайте typed controls с nonNullable:true, не общий FormGroup<any>.",
+      "Validator может читать уже созданную schedule и возвращать null или объект ошибки.",
+      "Коды нормализуйте только для сравнения; не меняйте пользовательский ввод."
+    ],
+    "explanation": "Тесты проверяют runtime и компиляцию strict fixture. Набор числовых start/end выбран для изоляции cross-field механизма; timezone и Date DTO относятся к отдельной границе.",
+    "relatedIds": [
+      "middle-08"
+    ],
+    "workspacePath": "practice/middle/middle-07",
+    "command": "npm.cmd run learn -- check middle-07",
+    "exercise": {
+      "id": "middle-07",
+      "lessonId": "w10-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-07",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "nested-form-and-fields",
+        "cross-fields-and-dynamic-rows",
+        "strict-form-types"
+      ],
+      "targetKey": "middle-07"
+    }
+  },
+  {
+    "id": "middle-08",
+    "kind": "check",
+    "title": "Привязать серверные ошибки к актуальным строкам формы",
+    "lessonId": "w10-02",
+    "minutes": 65,
+    "concept": "Stable ID, revision и сохранность нового ввода",
+    "summary": "Сопоставление использует ID, а не индекс.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nСервер проверяет snapshot, а пользователь продолжает редактировать и переставлять строки. Индекс массива ответа не является ID строки. Даже при совпавшей ревизии изменённое значение уже не то, которое отклонил сервер.\n\n### Контракт API\n\n`applyRowErrors(rows,response,snapshot,currentRevision)` → число применённых сообщений. rows — Angular FormArray групп с controls.id и controls.label (строки, ID уникальны). response=`{revision:number,errors:[{id:string,field:string,message:string}]}`; snapshot=`{revision:number,rows:[{id,label}]}` — неизменяемые данные отправленного запроса. Применяйте сообщения только если response.revision===snapshot.revision===currentRevision. Поддерживается только field===\"label\" и непустая после trim строка message; исходный текст сохраняется. Найдите актуальную строку по ID и строку snapshot по тому же ID. Если строка удалена/неизвестна или текущая label отличается от отправленной, пропустите. Иначе setErrors добавляет/заменяет ключ server, сохраняя все остальные errors. Значения, порядок, dirty/touched и ошибки других строк не меняются. Возвращайте число применённых сообщений (включая повторное сообщение для того же поля). Контейнеры response/snapshot предполагаются уже проверенными DTO.\n\n### Пример и новая проверка\n\nОтвет для a приходит после перемещения a с позиции 0 на 1: ошибка ставится на a. Новый пример: label(a) изменили после отправки — старую ошибку нельзя применять; неизменённая b всё ещё получает своё сообщение.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-08`. Редактируйте только `practice/middle/middle-08/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Сопоставление использует ID, а не индекс.",
+      "Старые ревизии и ответы для нового пользовательского ввода игнорируются.",
+      "Локальные errors сохраняются, значения формы не меняются."
+    ],
+    "hints": [
+      "Сначала сравните три ревизии и верните 0 при несовпадении.",
+      "Найдите row и snapshot-row независимо от их позиции.",
+      "Сравните label и используйте {...field.errors,server:message}."
+    ],
+    "explanation": "Общий номер запроса плюс сравнение значения — явный контракт этой лаборатории. Для приложения с параллельной отправкой разных секций выберите более точную модель field revisions; это отдельное расширение, не скрытое требование.",
+    "relatedIds": [
+      "middle-09"
+    ],
+    "workspacePath": "practice/middle/middle-08",
+    "command": "npm.cmd run learn -- check middle-08",
+    "exercise": {
+      "id": "middle-08",
+      "lessonId": "w10-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-08",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "stable-id-and-local-errors",
+        "preserve-new-input-and-stale-revision",
+        "removed-and-unknown-fields"
+      ],
+      "targetKey": "middle-08"
+    }
+  },
+  {
+    "id": "middle-09",
+    "kind": "check",
+    "title": "Отделить Problem Details от безопасного сообщения UI",
+    "lessonId": "w11-01",
+    "minutes": 50,
+    "concept": "Error boundary и семантика повтора",
+    "summary": "Словарь покрывает известные статусы, неизвестный ввод не вызывает исключение.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nProblem Details помогает диагностике, но detail/title могут содержать техническую или чувствительную информацию. UI получает ограниченный собственный словарь. Возможность показать кнопку повтора зависит от метода и статуса, а не только от диапазона 5xx.\n\n### Контракт API\n\n`presentProblem(problem,method)` → ровно `{message:string,canRetry:boolean}`. problem неизвестен; распознаётся только числовой целый status у объекта, не массива. Словарь: 0 → \"Нет соединения\"; 400 → \"Проверьте данные\"; 401 → \"Войдите в систему\"; 403 → \"Недостаточно прав\"; 404 → \"Объект не найден\"; 409 → \"Данные изменились; обновите экран\"; 429 → \"Слишком много запросов\"; целые 500..599 → \"Сервис временно недоступен\"; прочие/отсутствующие/неверного типа → \"Не удалось выполнить запрос\". Никогда не возвращайте detail, title, type или сырой HTML. canRetry=true только для method GET/HEAD/OPTIONS (регистр значим) и status 0/429/502/503/504. Для POST/PATCH/PUT/DELETE false: в этой учебной политике нет серверного idempotency-контракта. Не выполняйте запрос и не реализуйте автоматический retry.\n\n### Пример и новая проверка\n\n{status:503,detail:\"<img...>\"} + GET → безопасная фиксированная строка и true. POST с тем же ответом → false. Новый пример: status:\"503\" — неизвестная форма, а не временный отказ.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-09`. Редактируйте только `practice/middle/middle-09/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Словарь покрывает известные статусы, неизвестный ввод не вызывает исключение.",
+      "Серверные detail/title/HTML никогда не выводятся как сообщение.",
+      "Повтор зависит одновременно от метода и ограниченного набора статусов."
+    ],
+    "hints": [
+      "Отделите проверку формы от выбора сообщения.",
+      "Проверьте точные статусы, затем диапазон 500..599.",
+      "Пересечение двух allowlists проще неявного правила status>=500."
+    ],
+    "explanation": "Mapper проверяет безопасное отображение строки и продуктовую политику кнопки. Он не доказывает защиту API, HTML sanitizer или безопасность повторного HTTP-запроса: backend авторизация и идемпотентность проверяются интеграционно.",
+    "relatedIds": [
+      "middle-10"
+    ],
+    "workspacePath": "practice/middle/middle-09",
+    "command": "npm.cmd run learn -- check middle-09",
+    "exercise": {
+      "id": "middle-09",
+      "lessonId": "w11-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-09",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "fixed-safe-messages",
+        "retry-semantics",
+        "unknown-problem-boundary"
+      ],
+      "targetKey": "middle-09"
+    }
+  },
+  {
+    "id": "middle-10",
+    "kind": "check",
+    "title": "Защитить optimistic state от устаревшего ответа",
+    "lessonId": "w11-02",
+    "minutes": 75,
+    "concept": "Request token, server version и rollback",
+    "summary": "Оптимистический показ, подтверждение и rollback имеют явные состояния.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nОптимистическое значение и последнее подтверждённое значение имеют разные роли. Ответ старой операции не должен перетирать новое редактирование. Версия записи — контракт API, номер запроса — локальная идентичность клиентской операции.\n\n### Контракт API\n\n`createOptimistic(initial)` принимает `{id:string,title:string,version:number}` с корректной неотрицательной safe integer version. Возвращает настоящие Angular Signals value/pending и методы begin(title), resolve(token,server), reject(token). Изначально value — копия initial, pending=false. begin создаёт новый уникальный возрастающий requestId, возвращает `{requestId,expectedVersion,title}`, где expectedVersion — последняя подтверждённая version, устанавливает optimistic title на копии confirmed и pending=true. Последний begin заменяет активную операцию. resolve принимает только активный requestId, совпадающий id записи и safe integer server.version строго больше подтверждённой. Иначе ничего не меняется, даже pending. Корректный server имеет ту же форму DTO и копируется в confirmed/value, pending=false, активная операция снимается. reject только активного токена возвращает последнюю confirmed, снимает pending/активность. Любые старые и уже завершённые токены игнорируются. Изменение initial или server после вызова не меняет store. Строковый title серверного DTO считается уже валидированным.\n\n### Пример и новая проверка\n\nbegin(A),begin(B),resolve(A) оставляет optimistic B. resolve(B) сохраняет серверную версию; поздний reject(A) её не меняет. Новый пример: после успешной version=4 begin(C) возвращает expectedVersion=4; reject(C) возвращает подтверждённое значение версии 4.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-10`. Редактируйте только `practice/middle/middle-10/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Оптимистический показ, подтверждение и rollback имеют явные состояния.",
+      "Старый токен, чужой ID и непродвинувшаяся версия не перезаписывают value.",
+      "Снимки входа и ответа не делят изменяемый объект с store."
+    ],
+    "hints": [
+      "Храните confirmed отдельно от value signal.",
+      "В начале resolve/reject проверяйте активный requestId.",
+      "После успешного resolve/reject сбросьте активность, чтобы повторный callback не сработал."
+    ],
+    "explanation": "Это клиентская модель конфликтов, а не транзакция. Старый ответ намеренно игнорируется даже с большой server.version; reconciliation с реальным backend выполняется отдельным reload/conflict workflow.",
+    "relatedIds": [
+      "middle-11"
+    ],
+    "workspacePath": "practice/middle/middle-10",
+    "command": "npm.cmd run learn -- check middle-10",
+    "exercise": {
+      "id": "middle-10",
+      "lessonId": "w11-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-10",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "optimistic-confirm-and-rollback",
+        "stale-settles-cannot-overwrite",
+        "invalid-commit-and-snapshot-isolation"
+      ],
+      "targetKey": "middle-10"
+    }
+  },
+  {
+    "id": "middle-11",
+    "kind": "check",
+    "title": "Написать контрактные тесты, которые ловят дефекты",
+    "lessonId": "w12-01",
+    "minutes": 60,
+    "concept": "Behavioral tests и mutation checks",
+    "summary": "Правильная реализация проходит, и тесты действительно вызывают параметр canEdit.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nЗдесь решением является тестовая функция. Проверка одного happy path мало говорит о политике. Несколько независимых условий дают полезную таблицу примеров: роль, активность, владение, состояние записи и отсутствие пользователя.\n\n### Контракт API\n\nЭкспортируйте `verifyCanEdit(canEdit)` — синхронную или async функцию, которая вызывает переданную реализацию и бросает assertion/Error при нарушении контракта. canEdit(actor,issue) должен вернуть boolean. actor — null или `{id:string,roles:string[],active:boolean}`, issue=`{ownerId:string,status:\"OPEN\"|\"IN_PROGRESS\"|\"DONE\"}`. Разрешено редактирование только активному actor, когда статус не DONE и (есть ADMIN либо есть EDITOR и actor.id===issue.ownerId). ADMIN не требует владения, но не обходит inactive/DONE. Неизвестная роль или совпадение owner без EDITOR/ADMIN не дают права. null → false. Корректная реализация должна пройти без исключений; реализации, пропускающие эти условия, должны отклоняться. Можно импортировать node:assert/strict. Не возвращайте только boolean: при найденной ошибке нужно бросить исключение. Это политика видимости клиентской команды; реальная авторизация всегда на backend.\n\n### Пример и новая проверка\n\nАктивный EDITOR владеет OPEN → true. Активный ADMIN не владеет IN_PROGRESS → true. Неактивный ADMIN → false. Новый пример: владелец с VIEWER и открытой заявкой → false.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-11`. Редактируйте только `practice/middle/middle-11/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Правильная реализация проходит, и тесты действительно вызывают параметр canEdit.",
+      "Проверены отрицательные случаи inactive, DONE, отсутствие пользователя.",
+      "Проверены EDITOR+владение, недостаточная роль и ADMIN без владения."
+    ],
+    "hints": [
+      "Запишите таблицу expected boolean до вызова реализации.",
+      "Добавьте позитивный случай ADMIN чужой заявки и негативный случай EDITOR чужой заявки.",
+      "Варьируйте по одному условию, чтобы выявить проверку, которую забыли."
+    ],
+    "explanation": "Grader запускает написанные вами тесты на корректном поведении и нескольких дефектных реализациях. Это проверяет полезность тестов в рамках политики, не полноту защиты приложения и не server authorization.",
+    "relatedIds": [
+      "middle-12"
+    ],
+    "workspacePath": "practice/middle/middle-11",
+    "command": "npm.cmd run learn -- check middle-11",
+    "exercise": {
+      "id": "middle-11",
+      "lessonId": "w12-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-11",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "accepts-correct-behavior",
+        "rejects-access-mutants",
+        "rejects-role-and-ownership-mutants"
+      ],
+      "targetKey": "middle-11"
+    }
+  },
+  {
+    "id": "middle-12",
+    "kind": "check",
+    "title": "Вычислить окно большой таблицы",
+    "lessonId": "w12-02",
+    "minutes": 60,
+    "concept": "Fixed-height virtualization и граничные условия",
+    "summary": "Частично видимые строки включаются, end остаётся исключительной границей.",
+    "placement": "replacement",
+    "brief": "## Механизм\n\nВиртуализация оставляет DOM пропорциональным размеру окна, а не всего набора. Диапазон хранится как [start,end), offset задаёт смещение первого отрисованного элемента. Overscan уменьшает заметность пересоздания строк, но не заменяет профилирование.\n\n### Контракт API\n\n`virtualWindow({count,rowHeight,scrollTop,viewportHeight,overscan})` → `{start,end,offset,totalHeight}`. count и overscan — safe integers >=0; rowHeight — конечное число >0; scrollTop/viewportHeight — конечные числа >=0. При неправильном поле бросайте RangeError. totalHeight=count*rowHeight; в допустимых сценариях произведение конечно. Для count=0 или viewportHeight=0 результат start=end=offset=0, totalHeight сохраняется. Иначе сначала ограничьте scrollTop максимумом max(0,totalHeight-viewportHeight). Первый видимый индекс=floor(top/rowHeight), исключительная правая граница=ceil((top+viewportHeight)/rowHeight). Расширьте обе стороны на overscan, ограничьте start>=0 и end<=count. offset=start*rowHeight. Дробные rowHeight/scrollTop/viewportHeight допустимы; исходный объект не меняется. Предполагается одинаковая высота всех строк.\n\n### Пример и новая проверка\n\ncount=100,rowHeight=20,top=45,viewport=50,overscan=1 → start=1,end=6,offset=20,totalHeight=2000. Новый пример: count=2 и viewport выше всего списка — показываются ровно две строки.\n\n### Работа\n\nИз корня проекта выполните `npm.cmd run learn -- check middle-12`. Редактируйте только `practice/middle/middle-12/solution.mjs`; starter остаётся исходной точкой. Сначала запишите прогноз или собственную попытку. JSON-отчёт появится в practice/reports; импорт отчёта не означает самостоятельное освоение урока.",
+    "acceptance": [
+      "Частично видимые строки включаются, end остаётся исключительной границей.",
+      "Overscan и scroll clamp не выводят диапазон за список.",
+      "Пустое окно и неправильные размеры имеют определённый результат."
+    ],
+    "hints": [
+      "Сначала проверьте поля и вычислите totalHeight.",
+      "Ограничьте scrollTop до расчёта индексов, особенно после уменьшения списка.",
+      "Используйте floor слева, ceil справа и clamp после overscan."
+    ],
+    "explanation": "Тесты проверяют математику окна. Перенос в таблицу требует измерения времени кадра, focus/keyboard behavior и доступности; variable-height rows требуют другого алгоритма.",
+    "relatedIds": [
+      "middle-01"
+    ],
+    "workspacePath": "practice/middle/middle-12",
+    "command": "npm.cmd run learn -- check middle-12",
+    "exercise": {
+      "id": "middle-12",
+      "lessonId": "w12-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-12",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "visible-window-and-overscan",
+        "clamped-and-empty",
+        "validated-input-and-new-sizes"
+      ],
+      "targetKey": "middle-12"
+    }
+  }
+]

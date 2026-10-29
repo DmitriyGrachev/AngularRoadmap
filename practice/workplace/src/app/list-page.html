@@ -1,0 +1,26 @@
+<div class="page-heading"><div><p class="eyebrow">Очередь поддержки</p><h1>Заявки команды</h1><p class="muted">Обращения сотрудников, которые ждут вашего решения.</p></div><span class="environment">Локальная среда</span></div>
+<form class="filters panel" [formGroup]="filters" (ngSubmit)="applyFilters()">
+  <div class="field grow"><label for="search">Поиск по номеру, теме или отделу</label><input id="search" type="search" formControlName="q" placeholder="Например, VPN или SD-101"></div>
+  <div class="field"><label for="status">Статус</label><select id="status" formControlName="status"><option value="all">Все статусы</option><option value="open">Открыта</option><option value="in-progress">В работе</option><option value="closed">Закрыта</option></select></div>
+  <button type="submit">Найти</button>
+</form>
+@if (vm$ | async; as vm) {
+  @if (vm.loading) { <p class="state" role="status">Загружаем заявки…</p> }
+  @if (vm.error) { <div class="state error" role="alert"><h2>Не удалось загрузить заявки</h2><p>{{ vm.error }}</p></div> }
+  @if (vm.page; as page) {
+    <div class="result-summary"><p>Найдено заявок: <strong>{{ page.total }}</strong></p><span class="muted">Страница {{ page.page }} из {{ totalPages(page) }}</span></div>
+    @if (page.total === 0) { <div class="state panel"><h2>Ничего не найдено</h2><p>Измените запрос или выберите другой статус.</p></div> }
+    <ul class="requests">
+      @for (item of page.items; track item.id) {
+        <li class="request panel">
+          <div><p class="request-meta"><span>{{ item.id }}</span><span>{{ item.customer }}</span></p><h2><a class="request-link" [routerLink]="['/requests', item.id]" queryParamsHandling="preserve">{{ item.title }}</a></h2><p class="muted">{{ item.assignee || 'Без исполнителя' }} · Обновлена {{ item.updatedAt | date:'dd.MM.yyyy' }}</p></div>
+          <div class="request-tags"><span class="badge" [class.closed]="item.status === 'closed'">{{ statusLabels[item.status] }}</span><span class="priority" [class.high]="item.priority === 'high'">{{ priorityLabels[item.priority] }} приоритет</span></div>
+        </li>
+      }
+    </ul>
+    <nav class="pagination" aria-label="Страницы заявок">
+      @if (page.page > 1) { <a class="button secondary" [routerLink]="['/requests']" [queryParams]="{ page: page.page - 1 }" queryParamsHandling="merge">← Назад</a> }
+      @if (page.page < totalPages(page)) { <a class="button secondary" [routerLink]="['/requests']" [queryParams]="{ page: page.page + 1 }" queryParamsHandling="merge">Далее →</a> }
+    </nav>
+  }
+}

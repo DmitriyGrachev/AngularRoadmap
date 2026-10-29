@@ -1,0 +1,259 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "analytics": false
+  },
+  "projects": {
+    "learning-site": {
+      "projectType": "application",
+      "root": "apps/learning-site",
+      "sourceRoot": "apps/learning-site/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/learning-site",
+            "browser": "apps/learning-site/src/main.ts",
+            "index": "apps/learning-site/src/index.html",
+            "tsConfig": "apps/learning-site/tsconfig.app.json",
+            "styles": [
+              "apps/learning-site/src/styles.css"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "content",
+                "output": "content"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/learning-site/public",
+                "output": "/"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "700kB",
+                  "maximumError": "1MB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "learning-site:build:production"
+            },
+            "development": {
+              "buildTarget": "learning-site:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
+    "issue-tracker": {
+      "projectType": "application",
+      "root": "practice/issue-tracker",
+      "sourceRoot": "practice/issue-tracker/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/issue-tracker",
+            "browser": "practice/issue-tracker/src/main.ts",
+            "index": "practice/issue-tracker/src/index.html",
+            "tsConfig": "practice/issue-tracker/tsconfig.app.json",
+            "styles": [
+              "practice/issue-tracker/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "practice/issue-tracker/proxy.conf.json"
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "issue-tracker:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "issue-tracker:build:development",
+            "tsConfig": "practice/issue-tracker/tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        }
+      }
+    },
+    "issue-demo": {
+      "projectType": "application",
+      "root": "author/solutions/issue-tracker",
+      "sourceRoot": "author/solutions/issue-tracker/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/issue-demo",
+            "browser": "author/solutions/issue-tracker/src/main.ts",
+            "index": "author/solutions/issue-tracker/src/index.html",
+            "tsConfig": "author/solutions/issue-tracker/tsconfig.app.json",
+            "styles": [
+              "author/solutions/issue-tracker/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "author/solutions/issue-tracker/proxy.conf.json"
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "issue-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "issue-demo:build:development",
+            "tsConfig": "author/solutions/issue-tracker/tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        }
+      }
+    },
+    "angular-labs": {
+      "projectType": "application",
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "practice/angular-labs/tsconfig.spec.json",
+            "buildTarget": "angular-labs:build:development",
+            "runner": "vitest"
+          }
+        },
+        "build": {
+          "defaultConfiguration": "production",
+          "builder": "@angular/build:application",
+          "configurations": {
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            },
+            "production": {
+              "outputHashing": "all"
+            }
+          },
+          "options": {
+            "styles": [
+              "practice/angular-labs/src/styles.css"
+            ],
+            "tsConfig": "practice/angular-labs/tsconfig.app.json",
+            "browser": "practice/angular-labs/src/main.ts",
+            "index": "practice/angular-labs/src/index.html",
+            "outputPath": "dist/angular-labs"
+          }
+        },
+        "serve": {
+          "defaultConfiguration": "development",
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "angular-labs:build:development"
+            }
+          }
+        }
+      },
+      "sourceRoot": "practice/angular-labs/src",
+      "root": "practice/angular-labs"
+    },
+    "workplace": {
+      "projectType": "application",
+      "root": "practice/workplace",
+      "sourceRoot": "practice/workplace/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/workplace",
+            "browser": "practice/workplace/src/main.ts",
+            "index": "practice/workplace/src/index.html",
+            "tsConfig": "practice/workplace/tsconfig.app.json",
+            "styles": [
+              "practice/workplace/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "workplace:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "workplace:build:development",
+            "tsConfig": "practice/workplace/tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        }
+      }
+    }
+  }
+}

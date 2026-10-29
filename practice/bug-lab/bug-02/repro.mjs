@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import '@angular/compiler';
+import { convertToParamMap } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+const params = new BehaviorSubject(convertToParamMap({ status: 'OPEN' }));
+const model = solution.createFilters({ snapshot: { queryParamMap: params.value }, queryParamMap: params }, { navigate: async () => true });
+const observed = [model.status()];
+params.next(convertToParamMap({ status: 'DONE' })); observed.push(model.status());
+params.next(convertToParamMap({ status: 'OPEN' })); observed.push(model.status()); model.destroy();
+console.log({ observed, expected: ['OPEN', 'DONE', 'OPEN'] });
+assert.deepEqual(observed, ['OPEN', 'DONE', 'OPEN']);
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

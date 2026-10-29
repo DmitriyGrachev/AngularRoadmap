@@ -1,0 +1,50 @@
+{
+  "name": "angular-practicum",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "site": "ng serve learning-site --host 127.0.0.1 --port 4300",
+    "build": "ng build learning-site",
+    "test": "node --test tools/*.test.mjs",
+    "verify:platform": "npm run test && npm run build",
+    "verify:content": "node tools/content.mjs",
+    "learn": "node tools/learn.mjs",
+    "practice:web": "node tools/practice-server.mjs",
+    "practice:angular": "ng serve issue-tracker --host 127.0.0.1 --port 4302",
+    "practice:demo": "ng serve issue-demo --host 127.0.0.1 --port 4303",
+    "practice:labs": "ng serve angular-labs --host 127.0.0.1 --port 4304",
+    "practice:labs:test": "ng test angular-labs --watch=false",
+    "practice:test": "ng test issue-tracker",
+    "practice:api": "node tools/java-api.mjs",
+    "test:e2e": "playwright test",
+    "test:demo": "ng test issue-demo --watch=false",
+    "test:author": "node tools/learn.mjs verify-author",
+    "practice:workplace": "ng serve workplace --host 127.0.0.1 --port 4305",
+    "test:workplace": "ng test workplace --watch=false",
+    "build:workplace": "ng build workplace"
+  },
+  "dependencies": {
+    "@angular/common": "22.2.3",
+    "@angular/compiler": "22.2.3",
+    "@angular/core": "22.2.3",
+    "@angular/forms": "22.2.3",
+    "@angular/platform-browser": "22.2.3",
+    "@angular/router": "22.2.3",
+    "marked": "18.1.1",
+    "rxjs": "7.8.2",
+    "tslib": "2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "22.2.3",
+    "@angular/cli": "22.2.3",
+    "@angular/compiler-cli": "22.2.3",
+    "@playwright/test": "1.64.1",
+    "jsdom": "27.4.0",
+    "typescript": "6.0.3",
+    "vitest": "5.0.5"
+  }
+}

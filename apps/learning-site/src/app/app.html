@@ -1,0 +1,32 @@
+<a class="skip-link" href="#main-content" (click)="skipToContent($event)">Перейти к содержимому</a>
+<button class="mobile-menu icon-button" [attr.aria-label]="menuOpen() ? 'Закрыть меню' : 'Открыть меню'" [attr.aria-expanded]="menuOpen()" (click)="menuOpen.set(!menuOpen())">
+  <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+</button>
+@if (menuOpen()) { <button class="nav-backdrop" aria-label="Закрыть меню" (click)="menuOpen.set(false)"></button> }
+<aside class="sidebar" [class.open]="menuOpen()">
+  <a routerLink="/today" class="brand" aria-label="Angular Практикум — главная">
+    <span class="angular-mark">A</span>
+    <span><strong>Angular</strong><small>/ практикум</small></span>
+  </a>
+  <nav aria-label="Основная навигация">
+    @for (item of nav; track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="active" ariaCurrentWhenActive="page"><app-icon [name]="item.icon" />{{ item.label }}</a>
+    }
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="sidebar-course"><span class="muted"><app-icon name="book" /> Твой курс</span><strong>{{ course.weeks().length }} недель</strong><p>{{ course.hours(course.totalMinutes()) }} практики<br>и теории</p></div>
+    <p class="sidebar-note">От Java-разработчика<br>к уверенной работе<br>с Angular</p>
+  </div>
+</aside>
+<div class="workspace">
+  <header class="topbar"><span>Мой курс <span class="separator">/</span> <strong>{{ pageLabel() }}</strong></span><a routerLink="/roadmap"><app-icon name="book" /><span>Учебное пространство</span></a></header>
+  <main id="main-content" tabindex="-1">
+    @if (course.storageWarning()) { <div class="notice warning" role="status">{{ course.storageWarning() }} <a routerLink="/progress">Открыть прогресс</a></div> }
+    @if (course.loading()) {
+      <div class="loading-state"><span class="loader"></span><p>Открываем учебное пространство…</p></div>
+    } @else if (course.error()) {
+      <div class="empty-state" role="alert"><h1>Не удалось открыть курс</h1><p>{{ course.error() }}</p><button class="button primary" (click)="course.load()">Попробовать снова</button></div>
+    } @else { <router-outlet /> }
+  </main>
+  <footer class="page-footer"><span>Angular Практикум</span><span>Разобраться. Попробовать. Объяснить.</span></footer>
+</div>

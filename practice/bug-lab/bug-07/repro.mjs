@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+import '@angular/compiler';
+import { convertToParamMap } from '@angular/router';
+import { BehaviorSubject, of } from 'rxjs';
+const params = new BehaviorSubject(convertToParamMap({ id: 'A-1' })), requested = [];
+const subscription = solution.details({ snapshot: { paramMap: params.value }, paramMap: params }, id => { requested.push(id); return of({ id }); }).subscribe(item => console.log(item));
+params.next(convertToParamMap({ id: 'B-2' })); subscription.unsubscribe();
+console.log({ requested, expected: ['A-1', 'B-2'] });
+assert.deepEqual(requested, ['A-1', 'B-2']);
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const solution = await import(process.argv[2] ? pathToFileURL(resolve(process.argv[2])).href : './solution.mjs');
+const params = solution.buildParams({ status: 'DONE', page: 3, q: ' сеть & API ' });
+console.log({ queryString: params.toString(), status: params.get('status'), page: params.get('page'), q: params.get('q') });
+assert.equal(params.get('status'), 'DONE');
+assert.equal(params.get('page'), '3');
+assert.equal(params.get('q'), 'сеть & API');
+console.log("Сценарий исправлен. Запустите полную проверку упражнения.");

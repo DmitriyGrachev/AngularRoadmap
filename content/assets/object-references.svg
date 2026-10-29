@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="380" viewBox="0 0 800 380" role="img" aria-labelledby="title desc">
+  <title id="title">Две ссылки на один объект и поверхностная копия</title>
+  <desc id="desc">original и alias обращаются к одному объекту с title Письмо и status DONE. copy обращается к другому объекту с title Кнопка и status DONE.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#3058db"/></marker></defs>
+  <rect width="800" height="380" rx="16" fill="#eef3ff"/>
+  <g font-family="Segoe UI, Arial, sans-serif" fill="#162139">
+    <text x="30" y="40" font-size="21" font-weight="650">После выполнения примера</text>
+    <g font-family="Consolas, monospace" font-size="20">
+      <rect x="30" y="70" width="160" height="52" rx="8" fill="white" stroke="#c7d4ed"/>
+      <text x="55" y="103">original</text>
+      <rect x="30" y="148" width="160" height="52" rx="8" fill="white" stroke="#c7d4ed"/>
+      <text x="55" y="181">alias</text>
+      <rect x="30" y="260" width="160" height="52" rx="8" fill="white" stroke="#c7d4ed"/>
+      <text x="55" y="293">copy</text>
+      <rect x="340" y="70" width="420" height="130" rx="10" fill="white" stroke="#3058db" stroke-width="2"/>
+      <text x="362" y="105">Объект A</text>
+      <text x="362" y="143" font-size="18">title: 'Письмо'</text>
+      <text x="362" y="175" font-size="18">status: 'DONE'</text>
+      <rect x="340" y="230" width="420" height="130" rx="10" fill="white" stroke="#3058db" stroke-width="2"/>
+      <text x="362" y="265">Объект B</text>
+      <text x="362" y="303" font-size="18">title: 'Кнопка'</text>
+      <text x="362" y="335" font-size="18">status: 'DONE'</text>
+    </g>
+    <g fill="none" stroke="#3058db" stroke-width="2.5" marker-end="url(#arrow)">
+      <path d="M190 96H320"/><path d="M190 174C250 174 255 125 320 125"/><path d="M190 286H320"/>
+    </g>
+  </g>
+</svg>

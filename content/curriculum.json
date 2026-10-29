@@ -1,0 +1,2389 @@
+{
+  "schemaVersion": 1,
+  "title": "Angular + Java: от основ frontend к задачам Middle Fullstack",
+  "description": "Два этапа для Java-разработчика под стек PL2: основы frontend и самостоятельные задачи Angular + Java. 12 недель, 180 обязательных часов и до 60 часов резерва.",
+  "totalMinutes": 10800,
+  "weeks": [
+    {
+      "number": 1,
+      "title": "Браузер и JavaScript",
+      "description": "Связать структуру, оформление и поведение страницы со списком заявок.",
+      "focus": "HTML, CSS, DOM, функции и массивы"
+    },
+    {
+      "number": 2,
+      "title": "Асинхронность и TypeScript",
+      "description": "Обрабатывать ожидание и ошибку, описывать модели и проверять внешний вход.",
+      "focus": "Promise, модули, строгие типы и первые тесты"
+    },
+    {
+      "number": 3,
+      "title": "Компоненты и устройство Angular",
+      "description": "Собрать локальный трекер из компонентов, сервиса и маршрутов.",
+      "focus": "Шаблоны, inputs/outputs, signals, DI и Router"
+    },
+    {
+      "number": 4,
+      "title": "HTTP, RxJS и Java API",
+      "description": "Подключить список и детали к API с поиском, страницами и обработкой ошибок.",
+      "focus": "HttpClient, Observable, switchMap, Network и URL"
+    },
+    {
+      "number": 5,
+      "title": "Формы и сохранение данных",
+      "description": "Создавать и редактировать заявки, сохраняя ввод при серверном отказе.",
+      "focus": "Reactive Forms, валидация, POST и PATCH"
+    },
+    {
+      "number": 6,
+      "title": "Самостоятельные изменения и качество",
+      "description": "Выполнить задачу по требованиям и объяснить проверенное изменение.",
+      "focus": "Диагностика, тесты, фильтры, доступность и самопроверка"
+    },
+    {
+      "number": 7,
+      "title": "Надёжный клиент: JavaScript, типы и браузер",
+      "description": "Управлять асинхронной нагрузкой, проверять внешние данные и делать интерфейс доступным.",
+      "focus": "Ограничение параллелизма, DTO, CSS, DOM и доступность"
+    },
+    {
+      "number": 8,
+      "title": "Состояние и архитектура Angular feature",
+      "description": "Выбирать владельца состояния и связывать Signals, URL, компоненты и DI.",
+      "focus": "Инварианты store, roundtrip URL, границы компонентов и области providers"
+    },
+    {
+      "number": 9,
+      "title": "RxJS: конкуренция и время жизни",
+      "description": "Управлять кэшем, очередями записи, отменой и ошибками конкурирующих запросов.",
+      "focus": "Инвалидация, последовательная запись, события и teardown"
+    },
+    {
+      "number": 10,
+      "title": "Сложные формы и UI-компоненты",
+      "description": "Редактировать вложенные данные и сохранять ввод при ошибках.",
+      "focus": "Typed forms, stable ID, CVA, доступность и динамический редактор"
+    },
+    {
+      "number": 11,
+      "title": "Полный стек и границы доверия",
+      "description": "Провести изменение через Angular и настоящий Java API.",
+      "focus": "Problem Details, версии, сессии, CSRF и интеграционные проверки"
+    },
+    {
+      "number": 12,
+      "title": "Самостоятельность и доставка",
+      "description": "Подтвердить навык новой функцией, инцидентом и защитой.",
+      "focus": "Поведенческие тесты, профилирование, CI, наблюдаемость и перенос"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "w1-01",
+      "week": 1,
+      "order": 1,
+      "title": "Как браузер показывает страницу",
+      "summary": "Соберите карточку и проследите путь HTML-файла к DOM.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w1-01.md",
+      "prerequisites": [],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-01-ex1"
+      ]
+    },
+    {
+      "id": "w1-02",
+      "week": 1,
+      "order": 2,
+      "title": "CSS: почему карточка выглядит именно так",
+      "summary": "Разберитесь с каскадом, размерами и панелью действий на узком экране.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w1-02.md",
+      "prerequisites": [
+        "w1-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-02-ex1"
+      ]
+    },
+    {
+      "id": "w1-03",
+      "week": 1,
+      "order": 3,
+      "title": "JavaScript: данные, функция и событие",
+      "summary": "Измените статус по нажатию и сопоставьте событие с Angular-шаблоном.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w1-03.md",
+      "prerequisites": [
+        "w1-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-03-ex1"
+      ]
+    },
+    {
+      "id": "w1-04",
+      "week": 1,
+      "order": 4,
+      "title": "Массивы и объекты: выбрать данные и сохранить исходник",
+      "summary": "Реализуйте фильтр и подписи без изменения исходных заявок.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w1-04.md",
+      "prerequisites": [
+        "w1-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-04-ex1",
+        "checks-01"
+      ]
+    },
+    {
+      "id": "w1-05",
+      "week": 1,
+      "order": 5,
+      "title": "Форма фильтра и поиск ошибки в браузере",
+      "summary": "Свяжите поля с фильтром и найдите дефект в DevTools.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w1-05.md",
+      "prerequisites": [
+        "w1-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-05-ex1"
+      ]
+    },
+    {
+      "id": "w1-workshop",
+      "week": 1,
+      "order": 6,
+      "title": "Практикум: небольшой список заявок",
+      "summary": "Соедините HTML, CSS и JavaScript в доступную страницу списка.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w1-workshop.md",
+      "prerequisites": [
+        "w1-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w1-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w2-01",
+      "week": 2,
+      "order": 7,
+      "title": "Функции как значения, замыкания и модули",
+      "summary": "Разделите данные и преобразования и исправьте передачу callback.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w2-01.md",
+      "prerequisites": [
+        "w1-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-01-ex1"
+      ]
+    },
+    {
+      "id": "w2-02",
+      "week": 2,
+      "order": 8,
+      "title": "Ожидание данных: Promise и async/await",
+      "summary": "Обработайте успех и сбой загрузки, всегда завершая ожидание.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w2-02.md",
+      "prerequisites": [
+        "w2-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-02-ex1",
+        "checks-15"
+      ]
+    },
+    {
+      "id": "w2-03",
+      "week": 2,
+      "order": 9,
+      "title": "TypeScript: договор о форме данных",
+      "summary": "Опишите статусы, заявку и состояния без небезопасного доступа.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w2-03.md",
+      "prerequisites": [
+        "w2-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-03-ex1",
+        "checks-03"
+      ]
+    },
+    {
+      "id": "w2-04",
+      "week": 2,
+      "order": 10,
+      "title": "Внешние данные: unknown, проверка и Page<T>",
+      "summary": "Проверьте внешнее значение до использования типизированной модели.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w2-04.md",
+      "prerequisites": [
+        "w2-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-04-ex1",
+        "checks-02",
+        "checks-04"
+      ]
+    },
+    {
+      "id": "w2-05",
+      "week": 2,
+      "order": 11,
+      "title": "Тесты поведения и команды проекта",
+      "summary": "Исправьте фильтр по неуспешному тесту и добавьте граничные случаи.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w2-05.md",
+      "prerequisites": [
+        "w2-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-05-ex1"
+      ]
+    },
+    {
+      "id": "w2-workshop",
+      "week": 2,
+      "order": 12,
+      "title": "Практикум: типизированная загрузка и плохой вход",
+      "summary": "Соберите проверяемый слой данных с ошибками и асинхронной загрузкой.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w2-workshop.md",
+      "prerequisites": [
+        "w2-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w2-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w3-01",
+      "week": 3,
+      "order": 13,
+      "title": "Компонент: данные, шаблон и событие",
+      "summary": "Перенесите список в standalone-компонент и узнайте привязки в шаблоне PL.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w3-01.md",
+      "prerequisites": [
+        "w2-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-01-ex1"
+      ]
+    },
+    {
+      "id": "w3-02",
+      "week": 3,
+      "order": 14,
+      "title": "Границы компонентов: inputs, outputs и pipe",
+      "summary": "Разделите карточку и список с явными входами и событиями.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w3-02.md",
+      "prerequisites": [
+        "w3-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-02-ex1"
+      ]
+    },
+    {
+      "id": "w3-03",
+      "week": 3,
+      "order": 15,
+      "title": "Signals: исходное и вычисляемое состояние",
+      "summary": "Свяжите Signals и computed; проследите состояние вкладки через сервис как в PL.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w3-03.md",
+      "prerequisites": [
+        "w3-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-03-ex1",
+        "checks-07",
+        "bug-04"
+      ]
+    },
+    {
+      "id": "w3-04",
+      "week": 3,
+      "order": 16,
+      "title": "Сервис, DI и время жизни компонента",
+      "summary": "Вынесите данные в сервис, разберите область DI и владельца состояния PL.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w3-04.md",
+      "prerequisites": [
+        "w3-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-04-ex1",
+        "checks-08",
+        "checks-13",
+        "bug-05"
+      ]
+    },
+    {
+      "id": "w3-05",
+      "week": 3,
+      "order": 17,
+      "title": "Router: URL как часть состояния",
+      "summary": "Откройте детали по id и проверьте прямой адрес страницы.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w3-05.md",
+      "prerequisites": [
+        "w3-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-05-ex1",
+        "bug-02",
+        "bug-07"
+      ]
+    },
+    {
+      "id": "w3-workshop",
+      "week": 3,
+      "order": 18,
+      "title": "Практикум: Angular с локальными данными",
+      "summary": "Соберите локальный трекер и самостоятельно добавьте сортировку.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w3-workshop.md",
+      "prerequisites": [
+        "w3-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w3-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w4-01",
+      "week": 4,
+      "order": 19,
+      "title": "HTTP-контракт и вкладка Network",
+      "summary": "Сопоставьте запрос, ответ и серверный контракт заявки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w4-01.md",
+      "prerequisites": [
+        "w3-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-01-ex1"
+      ]
+    },
+    {
+      "id": "w4-02",
+      "week": 4,
+      "order": 20,
+      "title": "HttpClient и Observable: когда начинается запрос",
+      "summary": "Загрузите заявки через сервис и найдите момент подписки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w4-02.md",
+      "prerequisites": [
+        "w4-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-02-ex1",
+        "bug-03"
+      ]
+    },
+    {
+      "id": "w4-03",
+      "week": 4,
+      "order": 21,
+      "title": "Состояния загрузки и композиция pipe",
+      "summary": "Покажите ожидание, пустые данные, успех и ошибку запроса.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w4-03.md",
+      "prerequisites": [
+        "w4-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-03-ex1",
+        "checks-12",
+        "bug-10"
+      ]
+    },
+    {
+      "id": "w4-04",
+      "week": 4,
+      "order": 22,
+      "title": "Поиск: задержка, повтор и отмена старого чтения",
+      "summary": "Подключите поиск через switchMap и разберите связку RxJS → Signals для PL.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w4-04.md",
+      "prerequisites": [
+        "w4-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-04-ex1",
+        "checks-11",
+        "bug-01",
+        "bug-08"
+      ]
+    },
+    {
+      "id": "w4-05",
+      "week": 4,
+      "order": 23,
+      "title": "Пагинация, URL и проверка HTTP-зависимости",
+      "summary": "Согласуйте страницы API с адресом и проверьте запрос сервиса.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w4-05.md",
+      "prerequisites": [
+        "w4-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-05-ex1",
+        "checks-06",
+        "checks-16",
+        "bug-11"
+      ]
+    },
+    {
+      "id": "w4-workshop",
+      "week": 4,
+      "order": 24,
+      "title": "Практикум: список и детали с Java API",
+      "summary": "Проведите список и детали через реальные ответы и отказы API.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w4-workshop.md",
+      "prerequisites": [
+        "w4-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w4-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w5-01",
+      "week": 5,
+      "order": 25,
+      "title": "Typed Reactive Forms: модель формы",
+      "summary": "Соберите типизированную форму создания заявки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w5-01.md",
+      "prerequisites": [
+        "w4-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-01-ex1",
+        "checks-09"
+      ]
+    },
+    {
+      "id": "w5-02",
+      "week": 5,
+      "order": 26,
+      "title": "Валидация и доступные ошибки",
+      "summary": "Покажите ошибки полей после взаимодействия или попытки отправки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w5-02.md",
+      "prerequisites": [
+        "w5-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-02-ex1"
+      ]
+    },
+    {
+      "id": "w5-03",
+      "week": 5,
+      "order": 27,
+      "title": "Отправка формы: POST и ожидание",
+      "summary": "Создайте заявку и сохраните введённое при ошибке отправки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w5-03.md",
+      "prerequisites": [
+        "w5-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-03-ex1",
+        "checks-14",
+        "bug-12"
+      ]
+    },
+    {
+      "id": "w5-04",
+      "week": 5,
+      "order": 28,
+      "title": "Серверные ошибки полей и повторная попытка",
+      "summary": "Сопоставьте ошибки сервера с controls и исправьте ввод.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w5-04.md",
+      "prerequisites": [
+        "w5-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-04-ex1",
+        "checks-10",
+        "bug-06"
+      ]
+    },
+    {
+      "id": "w5-05",
+      "week": 5,
+      "order": 29,
+      "title": "Редактирование: загрузка формы и PATCH",
+      "summary": "Измените название и статус существующей заявки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w5-05.md",
+      "prerequisites": [
+        "w5-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-05-ex1",
+        "checks-05",
+        "bug-09"
+      ]
+    },
+    {
+      "id": "w5-workshop",
+      "week": 5,
+      "order": 30,
+      "title": "Практикум: создание и редактирование заявки",
+      "summary": "Пройдите полный путь сохранения и самостоятельно добавьте приоритет.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w5-workshop.md",
+      "prerequisites": [
+        "w5-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w5-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w6-01",
+      "week": 6,
+      "order": 31,
+      "title": "Чтение незнакомого Angular-кода",
+      "summary": "Прочитайте standalone-страницу PL: Material/CDK, Bootstrap, свои компоненты и отписки.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w6-01.md",
+      "prerequisites": [
+        "w5-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-01-ex1"
+      ]
+    },
+    {
+      "id": "w6-02",
+      "week": 6,
+      "order": 32,
+      "title": "Диагностика воспроизводимого дефекта",
+      "summary": "Найдите причину сбоя загрузки и подтвердите исправление.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w6-02.md",
+      "prerequisites": [
+        "w6-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-02-ex1"
+      ]
+    },
+    {
+      "id": "w6-03",
+      "week": 6,
+      "order": 33,
+      "title": "Тесты функции, сервиса и компонента",
+      "summary": "Дополните проверки пользовательского поведения и HTTP.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w6-03.md",
+      "prerequisites": [
+        "w6-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-03-ex1"
+      ]
+    },
+    {
+      "id": "w6-04",
+      "week": 6,
+      "order": 34,
+      "title": "Самостоятельная задача: фильтр приоритета",
+      "summary": "Спланируйте изменение фильтра через API и URL по требованиям.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w6-04.md",
+      "prerequisites": [
+        "w6-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-04-ex1"
+      ]
+    },
+    {
+      "id": "w6-05",
+      "week": 6,
+      "order": 35,
+      "title": "Самопроверка изменения и читаемый diff",
+      "summary": "Проверьте прямые ссылки, очистку и сочетание фильтров.",
+      "minutes": 120,
+      "contentPath": "content/lessons/w6-05.md",
+      "prerequisites": [
+        "w6-04"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-05-ex1"
+      ]
+    },
+    {
+      "id": "w6-workshop",
+      "week": 6,
+      "order": 36,
+      "title": "Итоговый практикум: сброс фильтров",
+      "summary": "Добавьте сброс состояния, найдите дефект страницы и объясните решение.",
+      "minutes": 300,
+      "contentPath": "content/lessons/w6-workshop.md",
+      "prerequisites": [
+        "w6-05"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w6-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w7-01",
+      "week": 7,
+      "order": 37,
+      "title": "Асинхронность и ограничение параллелизма",
+      "summary": "Реализуйте управляемый запуск задач, порядок результатов и остановку после ошибки.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w7-01.md",
+      "prerequisites": [
+        "w6-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-01"
+      ]
+    },
+    {
+      "id": "w7-02",
+      "week": 7,
+      "order": 38,
+      "title": "Строгие типы и проверка DTO",
+      "summary": "Проверьте неизвестный ответ, календарные даты и уникальность нормализованных ID.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w7-02.md",
+      "prerequisites": [
+        "w7-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-02"
+      ]
+    },
+    {
+      "id": "w7-03",
+      "week": 7,
+      "order": 39,
+      "title": "Браузер, CSS и доступность",
+      "summary": "Исправьте переполнение и клавиатурное взаимодействие с доказанной причиной.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w7-03.md",
+      "prerequisites": [
+        "w7-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w7-03-ex1"
+      ]
+    },
+    {
+      "id": "w7-workshop",
+      "week": 7,
+      "order": 40,
+      "title": "Практикум: устойчивый клиентский модуль",
+      "summary": "Соберите сводку с ограничением чтений, частичными ошибками и повтором строки.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w7-workshop.md",
+      "prerequisites": [
+        "w7-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w7-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w8-01",
+      "week": 8,
+      "order": 41,
+      "title": "Signals store и инварианты",
+      "summary": "Сохраните согласованный выбор и неизменяемые переходы без дублирования состояния.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w8-01.md",
+      "prerequisites": [
+        "w7-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-03"
+      ]
+    },
+    {
+      "id": "w8-02",
+      "week": 8,
+      "order": 42,
+      "title": "URL как состояние и roundtrip",
+      "summary": "Согласуйте фильтры, канонический URL, сторонние параметры и историю браузера.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w8-02.md",
+      "prerequisites": [
+        "w8-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-04"
+      ]
+    },
+    {
+      "id": "w8-03",
+      "week": 8,
+      "order": 43,
+      "title": "Границы компонентов и DI",
+      "summary": "Выделите компонент с ясным контрактом и проверьте независимость экземпляров store.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w8-03.md",
+      "prerequisites": [
+        "w8-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w8-03-ex1"
+      ]
+    },
+    {
+      "id": "w8-workshop",
+      "week": 8,
+      "order": 44,
+      "title": "Практикум: архитектура одной feature",
+      "summary": "Реализуйте временную подборку заявок с явными владельцами состояния и навигации.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w8-workshop.md",
+      "prerequisites": [
+        "w8-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w8-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w9-01",
+      "week": 9,
+      "order": 45,
+      "title": "RxJS-кэш и инвалидация",
+      "summary": "Разделите ленивое чтение и защитите новый кэш от cleanup старого запроса.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w9-01.md",
+      "prerequisites": [
+        "w8-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-05"
+      ]
+    },
+    {
+      "id": "w9-02",
+      "week": 9,
+      "order": 46,
+      "title": "Очередь записи и обработка отказов",
+      "summary": "Сохраните порядок команд и продолжите работу после синхронных и асинхронных ошибок.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w9-02.md",
+      "prerequisites": [
+        "w9-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-06"
+      ]
+    },
+    {
+      "id": "w9-03",
+      "week": 9,
+      "order": 47,
+      "title": "Отмена, ошибки и потоки событий",
+      "summary": "Разделите чтение, повтор и запись, проверив загрузку и завершение подписок.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w9-03.md",
+      "prerequisites": [
+        "w9-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w9-03-ex1"
+      ]
+    },
+    {
+      "id": "w9-workshop",
+      "week": 9,
+      "order": 48,
+      "title": "Практикум: конкурирующие запросы",
+      "summary": "Защитите экран от устаревших ответов, сохраните очередь записи и свежесть кэша.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w9-workshop.md",
+      "prerequisites": [
+        "w9-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w9-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w10-01",
+      "week": 10,
+      "order": 49,
+      "title": "Сложные типизированные формы",
+      "summary": "Постройте вложенную форму, валидаторы группы и массива.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w10-01.md",
+      "prerequisites": [
+        "w9-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-07"
+      ]
+    },
+    {
+      "id": "w10-02",
+      "week": 10,
+      "order": 50,
+      "title": "Серверные ошибки динамических строк",
+      "summary": "Сопоставьте ошибки со стабильным ID и актуальной редакцией.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w10-02.md",
+      "prerequisites": [
+        "w10-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-08"
+      ]
+    },
+    {
+      "id": "w10-03",
+      "week": 10,
+      "order": 51,
+      "title": "Собственный контрол и доступный диалог",
+      "summary": "Проверьте CVA, disabled, клавиатуру и возврат фокуса.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w10-03.md",
+      "prerequisites": [
+        "w10-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w10-03-ex1"
+      ]
+    },
+    {
+      "id": "w10-workshop",
+      "week": 10,
+      "order": 52,
+      "title": "Редактор динамических строк",
+      "summary": "Сохраните ввод и идентичность строк при задержанных ответах.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w10-workshop.md",
+      "prerequisites": [
+        "w10-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w10-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w11-01",
+      "week": 11,
+      "order": 53,
+      "title": "Контракт API и безопасные ошибки",
+      "summary": "Разделите Problem Details, сообщения UI и политику повторов.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w11-01.md",
+      "prerequisites": [
+        "w10-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-09"
+      ]
+    },
+    {
+      "id": "w11-02",
+      "week": 11,
+      "order": 54,
+      "title": "Оптимистичная запись и серверная версия",
+      "summary": "Согласуйте optimistic state, подтверждение и rollback.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w11-02.md",
+      "prerequisites": [
+        "w11-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-10"
+      ]
+    },
+    {
+      "id": "w11-03",
+      "week": 11,
+      "order": 55,
+      "title": "Сессии, CSRF и границы доступа",
+      "summary": "Отделите удобство frontend от серверных гарантий безопасности.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w11-03.md",
+      "prerequisites": [
+        "w11-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w11-03-ex1"
+      ]
+    },
+    {
+      "id": "w11-workshop",
+      "week": 11,
+      "order": 56,
+      "title": "Изменение через Angular и Java API",
+      "summary": "Проверьте настоящий HTTP, конфликт версии и права записи.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w11-workshop.md",
+      "prerequisites": [
+        "w11-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w11-workshop-ex1"
+      ]
+    },
+    {
+      "id": "w12-01",
+      "week": 12,
+      "order": 57,
+      "title": "Тесты, которые находят дефекты",
+      "summary": "Напишите проверки контракта и отвергните ошибочные реализации.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w12-01.md",
+      "prerequisites": [
+        "w11-workshop"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-11"
+      ]
+    },
+    {
+      "id": "w12-02",
+      "week": 12,
+      "order": 58,
+      "title": "Профилирование и большие таблицы",
+      "summary": "Измерьте работу экрана и рассчитайте виртуальное окно.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w12-02.md",
+      "prerequisites": [
+        "w12-01"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "middle-12"
+      ]
+    },
+    {
+      "id": "w12-03",
+      "week": 12,
+      "order": 59,
+      "title": "Доставка и расследование инцидента",
+      "summary": "Подготовьте проверяемый выпуск, диагностику и восстановление.",
+      "minutes": 180,
+      "contentPath": "content/lessons/w12-03.md",
+      "prerequisites": [
+        "w12-02"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w12-03-ex1"
+      ]
+    },
+    {
+      "id": "w12-workshop",
+      "week": 12,
+      "order": 60,
+      "title": "Самостоятельная функция и защита",
+      "summary": "Докажите перенос навыков, корректность записи и самостоятельность.",
+      "minutes": 360,
+      "contentPath": "content/lessons/w12-workshop.md",
+      "prerequisites": [
+        "w12-03"
+      ],
+      "readiness": "ready",
+      "exerciseIds": [
+        "w12-workshop-ex1"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "w1-01-ex1",
+      "lessonId": "w1-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/web-basics/w1-01-ex1",
+      "editablePaths": [
+        "index.html"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w1-01.md#criteria"
+    },
+    {
+      "id": "w1-02-ex1",
+      "lessonId": "w1-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/web-basics/w1-02-ex1",
+      "editablePaths": [
+        "styles.css"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w1-02.md#criteria"
+    },
+    {
+      "id": "w1-03-ex1",
+      "lessonId": "w1-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/web-basics/w1-03-ex1",
+      "editablePaths": [
+        "main.js"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w1-03.md#criteria"
+    },
+    {
+      "id": "w1-04-ex1",
+      "lessonId": "w1-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/foundations/w1-04-ex1",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "filter-open",
+        "immutable-input",
+        "empty-list",
+        "labels"
+      ],
+      "targetKey": "foundations-w1-04"
+    },
+    {
+      "id": "w1-05-ex1",
+      "lessonId": "w1-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/web-basics/w1-05-ex1",
+      "editablePaths": [
+        "index.html",
+        "main.js"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w1-05.md#criteria"
+    },
+    {
+      "id": "w1-workshop-ex1",
+      "lessonId": "w1-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/web-basics/w1-workshop-ex1",
+      "editablePaths": [
+        "index.html",
+        "styles.css",
+        "main.js"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w1-workshop.md#criteria"
+    },
+    {
+      "id": "w2-01-ex1",
+      "lessonId": "w2-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-01-ex1",
+      "editablePaths": [
+        "main.mjs",
+        "transforms.mjs"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-01.md#criteria"
+    },
+    {
+      "id": "w2-02-ex1",
+      "lessonId": "w2-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-02-ex1",
+      "editablePaths": [
+        "main.mjs"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-02.md#criteria"
+    },
+    {
+      "id": "w2-03-ex1",
+      "lessonId": "w2-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-03-ex1",
+      "editablePaths": [
+        "main.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-03.md#criteria"
+    },
+    {
+      "id": "w2-04-ex1",
+      "lessonId": "w2-04",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-04-ex1",
+      "editablePaths": [
+        "main.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-04.md#criteria"
+    },
+    {
+      "id": "w2-05-ex1",
+      "lessonId": "w2-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-05-ex1",
+      "editablePaths": [
+        "filter.mjs",
+        "filter.test.mjs"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-05.md#criteria"
+    },
+    {
+      "id": "w2-workshop-ex1",
+      "lessonId": "w2-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/foundations/async-types/w2-workshop-ex1",
+      "editablePaths": [
+        "main.ts",
+        "model.ts",
+        "parser.ts",
+        "loader.ts",
+        "checks.mjs"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w2-workshop.md#criteria"
+    },
+    {
+      "id": "w3-01-ex1",
+      "lessonId": "w3-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-01.md#criteria"
+    },
+    {
+      "id": "w3-02-ex1",
+      "lessonId": "w3-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-02.md#criteria"
+    },
+    {
+      "id": "w3-03-ex1",
+      "lessonId": "w3-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-03.md#criteria"
+    },
+    {
+      "id": "w3-04-ex1",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-04.md#criteria"
+    },
+    {
+      "id": "w3-05-ex1",
+      "lessonId": "w3-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-05.md#criteria"
+    },
+    {
+      "id": "w3-workshop-ex1",
+      "lessonId": "w3-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w3-workshop.md#criteria"
+    },
+    {
+      "id": "w4-01-ex1",
+      "lessonId": "w4-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-01.md#criteria"
+    },
+    {
+      "id": "w4-02-ex1",
+      "lessonId": "w4-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-02.md#criteria"
+    },
+    {
+      "id": "w4-03-ex1",
+      "lessonId": "w4-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-03.md#criteria"
+    },
+    {
+      "id": "w4-04-ex1",
+      "lessonId": "w4-04",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-04.md#criteria"
+    },
+    {
+      "id": "w4-05-ex1",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-05.md#criteria"
+    },
+    {
+      "id": "w4-workshop-ex1",
+      "lessonId": "w4-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w4-workshop.md#criteria"
+    },
+    {
+      "id": "w5-01-ex1",
+      "lessonId": "w5-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-01.md#criteria"
+    },
+    {
+      "id": "w5-02-ex1",
+      "lessonId": "w5-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-02.md#criteria"
+    },
+    {
+      "id": "w5-03-ex1",
+      "lessonId": "w5-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-03.md#criteria"
+    },
+    {
+      "id": "w5-04-ex1",
+      "lessonId": "w5-04",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-04.md#criteria"
+    },
+    {
+      "id": "w5-05-ex1",
+      "lessonId": "w5-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-05.md#criteria"
+    },
+    {
+      "id": "w5-workshop-ex1",
+      "lessonId": "w5-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/issue-form.ts",
+        "src/app/issue.service.ts",
+        "src/app/models.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w5-workshop.md#criteria"
+    },
+    {
+      "id": "w6-01-ex1",
+      "lessonId": "w6-01",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-01.md#criteria"
+    },
+    {
+      "id": "w6-02-ex1",
+      "lessonId": "w6-02",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-02.md#criteria"
+    },
+    {
+      "id": "w6-03-ex1",
+      "lessonId": "w6-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-03.md#criteria"
+    },
+    {
+      "id": "w6-04-ex1",
+      "lessonId": "w6-04",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-04.md#criteria"
+    },
+    {
+      "id": "w6-05-ex1",
+      "lessonId": "w6-05",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-05.md#criteria"
+    },
+    {
+      "id": "w6-workshop-ex1",
+      "lessonId": "w6-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/issue-tracker",
+      "editablePaths": [
+        "src/app/app.ts",
+        "src/app/app.html",
+        "src/app/models.ts",
+        "src/app/issue.service.ts",
+        "src/app/issues-list.ts",
+        "src/app/issue-detail.ts",
+        "src/app/issue-form.ts"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w6-workshop.md#criteria"
+    },
+    {
+      "id": "checks-01",
+      "lessonId": "w1-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-01",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "one-record",
+        "structural-sharing",
+        "no-op"
+      ],
+      "targetKey": "checks-01"
+    },
+    {
+      "id": "checks-02",
+      "lessonId": "w2-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-02",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "valid-page",
+        "bad-json",
+        "runtime-shape"
+      ],
+      "targetKey": "checks-02"
+    },
+    {
+      "id": "checks-03",
+      "lessonId": "w2-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-03",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "all-variants",
+        "union-types"
+      ],
+      "targetKey": "checks-03"
+    },
+    {
+      "id": "checks-04",
+      "lessonId": "w2-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-04",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "mapping",
+        "empty-page",
+        "generic-types"
+      ],
+      "targetKey": "checks-04"
+    },
+    {
+      "id": "checks-05",
+      "lessonId": "w5-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-05",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "changed-fields",
+        "empty-patch",
+        "patch-types"
+      ],
+      "targetKey": "checks-05"
+    },
+    {
+      "id": "checks-06",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-06",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "parsing",
+        "restoration",
+        "clear-defaults"
+      ],
+      "targetKey": "checks-06"
+    },
+    {
+      "id": "checks-07",
+      "lessonId": "w3-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-07",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "actual-signals",
+        "derived-updates",
+        "stable-computed"
+      ],
+      "targetKey": "checks-07"
+    },
+    {
+      "id": "checks-08",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-08",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "injection-scope",
+        "dependency-failure"
+      ],
+      "targetKey": "checks-08"
+    },
+    {
+      "id": "checks-09",
+      "lessonId": "w5-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-09",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "real-form",
+        "validation",
+        "initial-value-reset"
+      ],
+      "targetKey": "checks-09"
+    },
+    {
+      "id": "checks-10",
+      "lessonId": "w5-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-10",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "server-errors",
+        "unknown-fields"
+      ],
+      "targetKey": "checks-10"
+    },
+    {
+      "id": "checks-11",
+      "lessonId": "w4-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-11",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "latest-wins",
+        "cancel-stale",
+        "trim-debounce-distinct"
+      ],
+      "targetKey": "checks-11"
+    },
+    {
+      "id": "checks-12",
+      "lessonId": "w4-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-12",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "error-then-retry",
+        "latest-detail"
+      ],
+      "targetKey": "checks-12"
+    },
+    {
+      "id": "checks-13",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-13",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "destroy-unsubscribes",
+        "destroyed-before-subscribe"
+      ],
+      "targetKey": "checks-13"
+    },
+    {
+      "id": "checks-14",
+      "lessonId": "w5-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-14",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "ignore-double-save",
+        "failure-allows-retry"
+      ],
+      "targetKey": "checks-14"
+    },
+    {
+      "id": "checks-15",
+      "lessonId": "w2-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-15",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "parallel-order",
+        "reject-and-empty"
+      ],
+      "targetKey": "checks-15"
+    },
+    {
+      "id": "checks-16",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/checked/checks-16",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "deduplicate-replace",
+        "new-page-fixtures"
+      ],
+      "targetKey": "checks-16"
+    },
+    {
+      "id": "bug-01",
+      "lessonId": "w4-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-01",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "search-after-error",
+        "each-error-is-local"
+      ],
+      "targetKey": "bug-01"
+    },
+    {
+      "id": "bug-02",
+      "lessonId": "w3-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-02",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "back-restores-filter",
+        "selection-writes-url-and-cleans-up"
+      ],
+      "targetKey": "bug-02"
+    },
+    {
+      "id": "bug-03",
+      "lessonId": "w4-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-03",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "one-cold-request",
+        "late-counter-uses-result",
+        "unused-request-is-cancelled"
+      ],
+      "targetKey": "bug-03"
+    },
+    {
+      "id": "bug-04",
+      "lessonId": "w3-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-04",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "computed-invalidates",
+        "history-and-input-stay-unchanged"
+      ],
+      "targetKey": "bug-04"
+    },
+    {
+      "id": "bug-05",
+      "lessonId": "w3-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-05",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "destroy-stops-inner-timer",
+        "restart-keeps-one-timer"
+      ],
+      "targetKey": "bug-05"
+    },
+    {
+      "id": "bug-06",
+      "lessonId": "w5-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-06",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "failed-submit-keeps-draft",
+        "retry-sends-preserved-values"
+      ],
+      "targetKey": "bug-06"
+    },
+    {
+      "id": "bug-07",
+      "lessonId": "w3-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-07",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "reused-route-loads-new-id",
+        "route-change-cancels-old-detail"
+      ],
+      "targetKey": "bug-07"
+    },
+    {
+      "id": "bug-08",
+      "lessonId": "w4-04",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-08",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "latest-search-wins",
+        "clear-also-replaces-request"
+      ],
+      "targetKey": "bug-08"
+    },
+    {
+      "id": "bug-09",
+      "lessonId": "w5-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-09",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "disabled-id-remains-in-dto",
+        "snapshot-payload-does-not-follow-form"
+      ],
+      "targetKey": "bug-09"
+    },
+    {
+      "id": "bug-10",
+      "lessonId": "w4-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-10",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "loading-finishes-per-request",
+        "cancel-does-not-hide-new-loading"
+      ],
+      "targetKey": "bug-10"
+    },
+    {
+      "id": "bug-11",
+      "lessonId": "w4-05",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-11",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "http-params-reach-request",
+        "empty-and-separate-requests"
+      ],
+      "targetKey": "bug-11"
+    },
+    {
+      "id": "bug-12",
+      "lessonId": "w5-03",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/bug-lab/bug-12",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "double-click-does-not-double-post",
+        "error-allows-new-attempt"
+      ],
+      "targetKey": "bug-12"
+    },
+    {
+      "id": "w7-03-ex1",
+      "lessonId": "w7-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w7-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w7-03.md#criteria"
+    },
+    {
+      "id": "w7-workshop-ex1",
+      "lessonId": "w7-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w7-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w7-workshop.md#criteria"
+    },
+    {
+      "id": "w8-03-ex1",
+      "lessonId": "w8-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w8-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w8-03.md#criteria"
+    },
+    {
+      "id": "w8-workshop-ex1",
+      "lessonId": "w8-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w8-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w8-workshop.md#criteria"
+    },
+    {
+      "id": "w9-03-ex1",
+      "lessonId": "w9-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w9-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w9-03.md#criteria"
+    },
+    {
+      "id": "w9-workshop-ex1",
+      "lessonId": "w9-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w9-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w9-workshop.md#criteria"
+    },
+    {
+      "id": "w10-03-ex1",
+      "lessonId": "w10-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w10-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w10-03.md#criteria"
+    },
+    {
+      "id": "w10-workshop-ex1",
+      "lessonId": "w10-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w10-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w10-workshop.md#criteria"
+    },
+    {
+      "id": "w11-03-ex1",
+      "lessonId": "w11-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w11-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w11-03.md#criteria"
+    },
+    {
+      "id": "w11-workshop-ex1",
+      "lessonId": "w11-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w11-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w11-workshop.md#criteria"
+    },
+    {
+      "id": "w12-03-ex1",
+      "lessonId": "w12-03",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w12-03-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w12-03.md#criteria"
+    },
+    {
+      "id": "w12-workshop-ex1",
+      "lessonId": "w12-workshop",
+      "assessmentRevision": 1,
+      "mode": "manual",
+      "workspacePath": "practice/middle/w12-workshop-ex1",
+      "editablePaths": [
+        "notes.md"
+      ],
+      "requiredCheckIds": [],
+      "rubricPath": "content/lessons/w12-workshop.md#criteria"
+    },
+    {
+      "id": "middle-01",
+      "lessonId": "w7-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-01",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "bounded-ordered",
+        "failure-stops-launch",
+        "empty-and-limit"
+      ],
+      "targetKey": "middle-01"
+    },
+    {
+      "id": "middle-02",
+      "lessonId": "w7-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-02",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "mapped-boundary",
+        "invalid-calendar-and-shape",
+        "duplicates-and-fresh-dates"
+      ],
+      "targetKey": "middle-02"
+    },
+    {
+      "id": "middle-03",
+      "lessonId": "w8-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-03",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "signals-and-selection",
+        "replace-selection-invariant",
+        "immutable-rename-noop"
+      ],
+      "targetKey": "middle-03"
+    },
+    {
+      "id": "middle-04",
+      "lessonId": "w8-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-04",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "validated-multifilters",
+        "roundtrip-and-preservation",
+        "canonical-defaults-and-invalid-write"
+      ],
+      "targetKey": "middle-04"
+    },
+    {
+      "id": "middle-05",
+      "lessonId": "w9-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-05",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "lazy-shared-replayed",
+        "errors-and-invalidation",
+        "last-unsubscribe-cancels"
+      ],
+      "targetKey": "middle-05"
+    },
+    {
+      "id": "middle-06",
+      "lessonId": "w9-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-06",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "serial-order-and-recovery",
+        "synchronous-error-and-lazy",
+        "unsubscribe-discards-queue"
+      ],
+      "targetKey": "middle-06"
+    },
+    {
+      "id": "middle-07",
+      "lessonId": "w10-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-07",
+      "editablePaths": [
+        "solution.ts"
+      ],
+      "requiredCheckIds": [
+        "nested-form-and-fields",
+        "cross-fields-and-dynamic-rows",
+        "strict-form-types"
+      ],
+      "targetKey": "middle-07"
+    },
+    {
+      "id": "middle-08",
+      "lessonId": "w10-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-08",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "stable-id-and-local-errors",
+        "preserve-new-input-and-stale-revision",
+        "removed-and-unknown-fields"
+      ],
+      "targetKey": "middle-08"
+    },
+    {
+      "id": "middle-09",
+      "lessonId": "w11-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-09",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "fixed-safe-messages",
+        "retry-semantics",
+        "unknown-problem-boundary"
+      ],
+      "targetKey": "middle-09"
+    },
+    {
+      "id": "middle-10",
+      "lessonId": "w11-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-10",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "optimistic-confirm-and-rollback",
+        "stale-settles-cannot-overwrite",
+        "invalid-commit-and-snapshot-isolation"
+      ],
+      "targetKey": "middle-10"
+    },
+    {
+      "id": "middle-11",
+      "lessonId": "w12-01",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-11",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "accepts-correct-behavior",
+        "rejects-access-mutants",
+        "rejects-role-and-ownership-mutants"
+      ],
+      "targetKey": "middle-11"
+    },
+    {
+      "id": "middle-12",
+      "lessonId": "w12-02",
+      "assessmentRevision": 1,
+      "mode": "automated",
+      "workspacePath": "practice/middle/middle-12",
+      "editablePaths": [
+        "solution.mjs"
+      ],
+      "requiredCheckIds": [
+        "visible-window-and-overscan",
+        "clamped-and-empty",
+        "validated-input-and-new-sizes"
+      ],
+      "targetKey": "middle-12"
+    }
+  ]
+}
